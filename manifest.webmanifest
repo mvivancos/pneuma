@@ -1,0 +1,17 @@
+{
+  "name": "Pneuma",
+  "short_name": "Pneuma",
+  "description": "Pneuma Services: clientes, vehículos, trabajos, cotizaciones y administración.",
+  "lang": "es-CL",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#E4EBF3",
+  "theme_color": "#0B2A5B",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
