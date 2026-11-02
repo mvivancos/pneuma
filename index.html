@@ -366,6 +366,86 @@ textarea.in{min-height:92px;resize:vertical}
 .sigbox{position:relative;border:1.5px dashed var(--muted);border-radius:10px;background:#fff;overflow:hidden;margin-bottom:6px}
 .sigbox canvas{display:block;touch-action:none;cursor:crosshair}
 .sighint{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#9AA6B6;font-size:13px;pointer-events:none}
+/* RRHH — piezas nuevas, construidas sobre los tokens de la app */
+.sem{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.sem::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.sem.r{background:var(--red-bg);color:var(--red)}
+.sem.a{background:var(--warn-bg);color:var(--warn)}
+.sem.v{background:var(--ok-bg);color:var(--ok)}
+.sem.g{background:var(--grey-bg);color:var(--muted)}
+.sem.i{background:var(--info-bg);color:var(--info)}
+.alrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;text-align:left;width:100%;cursor:pointer}
+.alrow:hover{border-color:var(--muted)}
+.alrow.r{border-left:4px solid var(--red)}
+.alrow.a{border-left:4px solid var(--warn)}
+.alrow.g{border-left:4px solid var(--muted)}
+.alrow.i{border-left:4px solid var(--info)}
+.alrow .when{font-family:var(--f-display);font-size:19px;line-height:1;min-width:64px;text-align:center}
+.alrow .when small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.alrow .t{font-weight:600}
+.alrow .s{color:var(--muted);font-size:13.5px}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-family:var(--f-display);font-size:16px;letter-spacing:.04em;flex:none}
+.av.lg{width:58px;height:58px;font-size:22px}
+.wk .pills{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.fhead{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.fhead h1{font-size:28px}
+.secgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.venc{display:grid;gap:8px}
+.vrow{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.vrow .l{font-weight:600}
+.vrow .d{grid-column:1 / -1;font-size:13px;color:var(--muted)}
+.balance{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.balance div{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:var(--surface-2)}
+.balance span{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.balance b{font-family:var(--f-display);font-size:26px;line-height:1.1}
+.balance .main{background:var(--ok-bg);border-color:color-mix(in srgb,var(--ok) 30%,var(--line))}
+.balance .main b{color:var(--ok)}
+.mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.mcal .h{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:2px 4px}
+.mcal .c{min-height:64px;border:1px solid var(--line);border-radius:7px;padding:4px 5px;background:var(--surface);display:grid;align-content:start;gap:3px;min-width:0}
+.mcal .c.out{background:none;border-color:transparent}
+.mcal .c.we{background:var(--surface-2)}
+.mcal .c.fer{background:var(--red-bg)}
+.mcal .c.today{outline:2px solid var(--ink);outline-offset:-2px}
+.mcal .n{font-size:12px;color:var(--muted)}
+.mcal .ev{font-size:11px;font-weight:600;border-radius:4px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev.vac{background:var(--ok-bg);color:var(--ok)}
+.ev.per{background:var(--info-bg);color:var(--info)}
+.ev.lic{background:var(--warn-bg);color:var(--warn)}
+.calnav{display:flex;align-items:center;gap:8px}
+.calnav b{font-family:var(--f-display);font-size:19px;text-transform:uppercase;letter-spacing:.04em;min-width:150px;text-align:center}
+.epplist{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.epplist label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface-2);font-size:14px;font-weight:600;cursor:pointer}
+.epplist label:has(input:checked){border-color:var(--primary);background:color-mix(in srgb,var(--primary) 8%,var(--surface))}
+.epplist input{width:17px;height:17px;accent-color:var(--primary)}
+.doc{background:#fff;color:#111;border:1px solid var(--line);border-radius:8px;padding:22px 24px;font-size:13.5px;display:grid;gap:12px}
+.doc .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid var(--navy);padding-bottom:10px}
+.doc .dh img{height:34px;width:auto}
+.doc h4{margin:0;font-family:var(--f-display);font-size:20px;text-transform:uppercase;letter-spacing:.05em;color:var(--navy)}
+.doc table{width:100%;border-collapse:collapse}
+.doc td,.doc th{border:1px solid #CCD4DF;padding:5px 8px;text-align:left;vertical-align:top}
+.doc th{background:#EEF2F7;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em}
+.doc .sig{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:6px}
+.doc .sig div{flex:1 1 200px;text-align:center;font-size:12.5px}
+.doc .sig img{height:70px;max-width:100%;display:block;margin:0 auto}
+.doc .sig .ln{border-top:1px solid #333;padding-top:4px}
+.doc .miss{color:#C8191F;font-weight:600}
+.doc .okc{color:#1E7F4F;font-weight:600}
+.pickw{display:grid;gap:6px}
+.pickw label{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--surface-2);cursor:pointer}
+.pickw input{width:17px;height:17px;accent-color:var(--primary)}
+.warnbox{border-radius:8px;padding:10px 12px;font-size:14px}
+.warnbox.r{background:var(--red-bg);color:var(--red)}
+.warnbox.a{background:var(--warn-bg);color:var(--warn)}
+.warnbox.v{background:var(--ok-bg);color:var(--ok)}
+@media (max-width:760px){
+  .secgrid{grid-template-columns:1fr}
+  .balance{grid-template-columns:1fr 1fr 1fr}
+  .alrow{grid-template-columns:auto 1fr}
+  .alrow .r{grid-column:1 / -1;justify-self:start}
+  .mcal .c{min-height:48px}
+  .mcal .ev{font-size:10px}
+}
 @media (max-width:760px){ .ckr{grid-template-columns:1fr auto} .ckr .ckv{grid-column:1 / -1;order:3} .ckr .ckv:empty{display:none} }
 </style>
 
@@ -429,12 +509,12 @@ const DEFAULT_CFG = {
 const S = {
   area:'auto', route:{name:'inicio'}, demo:false, ready:false,
   clientes:new Map(), vehiculos:new Map(), trabajos:new Map(), catalogo:new Map(),
-  cotizaciones:new Map(), clientesadm:new Map(), catalogoadm:new Map(), instalaciones:new Map(), pmp:new Map(), finingresos:new Map(), fingastos:new Map(), finrecurrentes:new Map(), finomit:new Map(), informes:new Map(), finconfig:null, isOwner:false, lastRoute:{}, qcot:'', fcot:'todas',
+  cotizaciones:new Map(), clientesadm:new Map(), catalogoadm:new Map(), instalaciones:new Map(), pmp:new Map(), finingresos:new Map(), fingastos:new Map(), finrecurrentes:new Map(), finomit:new Map(), informes:new Map(), rrhhtrab:new Map(), rrhhaus:new Map(), rrhhreg:new Map(), finconfig:null, isOwner:false, lastRoute:{}, qcot:'', fcot:'todas',
   cfg:{...DEFAULT_CFG}, canEdit:false, canWrite:true, uid:null,
   editing:false, filtro:'abiertos', q:'', qc:'', qcat:''
 };
 let sb=null, rt=null, assets=null, downloads=null;
-const COLS = ['clientes','vehiculos','trabajos','catalogo','cotizaciones','clientesadm','catalogoadm','instalaciones','pmp','finingresos','fingastos','finrecurrentes','finomit','informes'];
+const COLS = ['clientes','vehiculos','trabajos','catalogo','cotizaciones','clientesadm','catalogoadm','instalaciones','pmp','finingresos','fingastos','finrecurrentes','finomit','informes','rrhhtrab','rrhhaus','rrhhreg'];
 
 /* Every row of table docs is one document: (col, id) -> data. Single documents config/empresa and finconfig/general live there too. */
 function applyDoc(col, id, data){
@@ -597,7 +677,7 @@ const Demo = {
     S.clientes.set('cEj',{id:'cEj',nombre:'Cliente de ejemplo',celular:'+56 9 1234 5678',correo:'ejemplo@correo.cl',rut:'',creado:today()});
     S.vehiculos.set('vEj',{id:'vEj',patente:'ABCD12',marca:'Toyota',modelo:'Yaris',anio:2018,clienteId:'cEj'});
     S.trabajos.set('tEj',{id:'tEj',numero:1,vehiculoId:'vEj',clienteId:'cEj',fecha:today(),km:84500,tecnico:'Técnico de ejemplo',estado:'terminado',refrigerante:'R-134a',gramos:450,pAlta:180,pBaja:32,tSalida:6,diagnostico:'Ejemplo: baja carga de refrigerante, fuga en o-ring de válvula de servicio.',trabajo:'Ejemplo: cambio de o-ring, prueba de hermeticidad, vacío y carga.',comentarios:'Ejemplo: realizar mantención anual del sistema.',items:[{codigo:'AA-01',nombre:'Revisión base / Diagnóstico (ejemplo)',cant:1,precio:25000,unidad:'servicio'}],repuestos:[{desc:'O-ring válvula de servicio (ejemplo)',cant:2,precio:3000}],garantia:true,fotos:[]});
-    DemoAdm.load(); DemoPmp(); DemoInf();
+    DemoAdm.load(); DemoPmp(); DemoInf(); DemoRRHH();
     DemoFin();
     S.ready = true; S.canEdit = true; S.isOwner = true;
   },
@@ -659,7 +739,8 @@ function render(){
   if (S.login) { $('#areas').innerHTML=''; $('#who').innerHTML=''; $('#view').innerHTML = loginView(); return; }
   const nAg = S.ready ? agendaPendientes().length : 0;
   const nFin = S.ready && S.isOwner ? finIngs().filter(vencida).length : 0;
-  $('#areas').innerHTML = (S.isOwner || S.demo ? AREAS : AREAS.filter(a=>a[0]==='auto'||a[0]==='inf')).map(([k,l])=>`<button data-act="area" data-k="${k}" aria-current="${S.area===k}">${l}${k==='admin'&&(nAg+nFin)?`<span class="dot">${nAg+nFin}</span>`:''}</button>`).join('');
+  const nRh = rhPendientes();
+  $('#areas').innerHTML = (S.isOwner || S.demo ? AREAS : AREAS.filter(a=>a[0]==='auto'||a[0]==='inf')).map(([k,l])=>`<button data-act="area" data-k="${k}" aria-current="${S.area===k}">${l}${k==='admin'&&(nAg+nFin+nRh)?`<span class="dot">${nAg+nFin+nRh}</span>`:''}</button>`).join('');
   $('#who').innerHTML = S.demo ? 'Modo demostración' : S.nombre ? `<span class="nm">${esc(S.nombre)}</span><button type="button" data-act="cuenta">Cuenta</button>` : '';
   const ae = document.activeElement, aid = ae && ae.id, sel = ae && ae.selectionStart;
   const v = $('#view');
@@ -668,7 +749,7 @@ function render(){
   const tabs = S.area==='inf' ? [...INF_SUBS]
     : S.area==='pmp' ? [['pmp','Programa'],['pmp-contratos','Contratos'],['pmp-inst','Instalaciones']]
     : S.area==='admin'
-    ? [['agenda','Agenda'+(nAg?` <span class="dot">${nAg}</span>`:'')],['cotizaciones','Cotizaciones'],['cot-catalogo','Servicios y precios'],...(S.isOwner?[['fin','Extintor'+(nFin?` <span class="dot">${nFin}</span>`:'')]]:[]),['admin-def','Por definir']]
+    ? [['agenda','Agenda'+(nAg?` <span class="dot">${nAg}</span>`:'')],['cotizaciones','Cotizaciones'],['cot-catalogo','Servicios y precios'],...(S.isOwner?[['fin','Extintor'+(nFin?` <span class="dot">${nFin}</span>`:'')]]:[]),...(S.isOwner?[['rrhh','RRHH'+(nRh?` <span class="dot">${nRh}</span>`:'')]]:[])]
     : [['inicio','Inicio'],['clientes','Clientes'],['trabajos','Trabajos'],['catalogo','Catálogo de servicios']];
   if (S.canEdit) tabs.push(['ajustes','Ajustes']);
   const cur = tabOf(r.name);
@@ -682,7 +763,7 @@ function render(){
 }
 function tabOf(n){
   return ({cliente:'clientes','cliente-nuevo':'clientes','cliente-editar':'clientes',vehiculo:'clientes',trabajo:'trabajos','trabajo-nuevo':'trabajos','trabajo-editar':'trabajos',
-    cot:'cotizaciones','cot-nueva':'cotizaciones','cot-editar':'cotizaciones','inf-inst-nuevo':'inf-inst','inf-inst-editar':'inf-inst','inf-inst-ver':'inf-inst'})[n] || (n.startsWith('fin-')?'fin':n);
+    cot:'cotizaciones','cot-nueva':'cotizaciones','cot-editar':'cotizaciones','inf-inst-nuevo':'inf-inst','inf-inst-editar':'inf-inst','inf-inst-ver':'inf-inst'})[n] || (n.startsWith('fin-')?'fin':n.startsWith('rrhh')?'rrhh':n);
 }
 function switchArea(a){
   if (S.area===a) return;
@@ -2732,7 +2813,7 @@ function infForm(r){
   <div class="form" id="iform">
     <div class="panel"><h3>Datos del informe</h3><div class="grid" style="align-items:start">
       <div class="f c4"><label for="if-fecha">Fecha del informe</label><input class="in" id="if-fecha" type="date" data-iq="fecha" value="${esc(I.fecha)}"><span class="hint">${isNew?'Se completa con la fecha de hoy. Cámbiala si la instalación fue otro día.':'Puedes corregirla si es necesario.'}</span></div>
-      <div class="f c4"><label for="if-tecnico">Técnico <span class="req">*</span></label><input class="in" id="if-tecnico" data-iq="tecnico" value="${esc(I.tecnico)}" autocomplete="off"></div>
+      <div class="f c4"><label for="if-tecnico">Técnico <span class="req">*</span></label><input class="in" id="if-tecnico" data-iq="tecnico" value="${esc(I.tecnico)}" autocomplete="off" ${S.isOwner&&S.rrhhtrab.size?'list="if-tecs"':''}>${S.isOwner&&S.rrhhtrab.size?`<datalist id="if-tecs">${rhTrabs().map(w=>`<option value="${esc(w.nombre)}">`).join('')}</datalist>`:''}<div id="if-apt">${rhAptitud(I.tecnico)}</div></div>
       <div class="f c4"><label>Cantidad de equipos instalados</label><div class="row" style="gap:8px;flex-wrap:nowrap"><span class="cantbox num" id="if-cant">${I.equipos.length}</span><button class="btn sm" data-act="inf-eq-add">+ Agregar equipo</button></div><span class="hint">Cada equipo tiene su propia planilla.</span></div>
     </div></div>
     <div class="panel"><h3>Cliente</h3><div class="grid">
@@ -2784,7 +2865,7 @@ function infTot(){ const sb=$('#sb-tot'); if (sb) sb.innerHTML = `Equipos instal
 function drawEqs(){ $('#if-eqs').innerHTML = I.equipos.map(eqHTML).join(''); infTot(); }
 function onInfInput(e){
   const el = e.target;
-  if (el.dataset.iq) { I[el.dataset.iq] = el.value; if (el.dataset.iq==='tecnico') ls.set('tecnico', el.value); }
+  if (el.dataset.iq) { I[el.dataset.iq] = el.value; if (el.dataset.iq==='tecnico') { ls.set('tecnico', el.value); const ap=$('#if-apt'); if (ap) ap.innerHTML = rhAptitud(el.value); } }
   else if (el.dataset.cl) {
     I.cliente[el.dataset.cl] = el.value;
     if (el.dataset.cl==='nombre' && e.type==='change') {
@@ -3069,6 +3150,455 @@ function DemoInf(){
     fotos:[], observaciones:'Ejemplo: equipos instalados y probados en modo frío y calor, funcionando en condiciones normales. Se explicó al cliente el uso del control remoto y la limpieza de filtros.',
     recibe:{nombre:'',rut:''}, firma:'', creado:today()});
   Demo.counters.informes = 1;
+}
+
+/* ================= ADMINISTRACIÓN: RRHH ================= */
+/* Colecciones (solo rol admin por RLS): rrhhtrab = fichas, rrhhaus = vacaciones/permisos/licencias, rrhhreg = registros firmados (EPP, capacitación, información de riesgos). */
+const RH_FERIADOS = new Set(['2026-01-01','2026-04-03','2026-04-04','2026-05-01','2026-05-21','2026-06-21','2026-06-29','2026-07-16','2026-08-15','2026-09-18','2026-09-19','2026-10-12','2026-10-31','2026-11-01','2026-12-08','2026-12-25',
+  '2027-01-01','2027-03-26','2027-03-27','2027-05-01','2027-05-21','2027-06-21','2027-06-28','2027-07-16','2027-08-15','2027-09-18','2027-09-19','2027-10-11','2027-10-31','2027-11-01','2027-12-08','2027-12-25']);
+const RH_TIPOS_AUS = ['Vacaciones','Permiso con goce','Permiso sin goce','Permiso legal (nacimiento, matrimonio, fallecimiento)','Licencia médica'];
+const RH_TIPOS_REG = ['Entrega de EPP','Capacitación','Información de riesgos (ex-ODI)'];
+const RH_EPP = ['Casco','Arnés de seguridad','Cabo de vida','Guantes','Lentes de seguridad','Zapatos de seguridad','Protector auditivo','Ropa de trabajo','Mascarilla'];
+const RH_PROG = ['Por confirmar','Menos de 10 años','10 años o más (presentó certificado)'];
+const RH_TABS = [['panel','Panel'],['trab','Trabajadores'],['aus','Vacaciones y permisos'],['prev','Prevención'],['acr','Acreditación']];
+const RH_MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+const rhD = s => { const [y,m,d] = String(s).split('-').map(Number); return new Date(y, m-1, d); };
+const rhIso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const rhAdd = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const rhHoy = () => rhD(today());
+const rhDiff = (a,b) => Math.round((b-a)/864e5);
+const rhLargo = s => { const d = rhD(s); return `${d.getDate()} de ${RH_MES[d.getMonth()]} de ${d.getFullYear()}`; };
+const rhIni = n => String(n||'?').split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+const rhHabil = d => { const w = d.getDay(); return w!==0 && w!==6 && !RH_FERIADOS.has(rhIso(d)); };
+const rhHabiles = (a,b) => { let n=0; if (!a||!b||b<a) return 0; for (let d=rhD(a); d<=rhD(b); d=rhAdd(d,1)) if (rhHabil(d)) n++; return n; };
+const rhTrabs = (todos) => [...S.rrhhtrab.values()].filter(w=>todos || w.activo!==false).sort((a,b)=>String(a.nombre).localeCompare(String(b.nombre)));
+const rhW = id => S.rrhhtrab.get(id);
+const rhNom = id => rhW(id)?.nombre || 'Trabajador eliminado';
+
+function rhVac(w){
+  const hoy = rhHoy(), a = rhD(w.ingreso||today());
+  let y = hoy.getFullYear()-a.getFullYear(); if (hoy < new Date(hoy.getFullYear(), a.getMonth(), a.getDate())) y--; y = Math.max(0,y);
+  const ganados = 15*y + (+w.diasExtra||0);
+  const usados = [...S.rrhhaus.values()].filter(x=>x.w===w.id && x.tipo==='Vacaciones').reduce((s,x)=>s+rhHabiles(x.desde,x.hasta),0);
+  const ult = new Date(a.getFullYear()+y, a.getMonth(), a.getDate());
+  const meses = Math.max(0, (hoy.getFullYear()-ult.getFullYear())*12 + hoy.getMonth()-ult.getMonth() - (hoy.getDate()<ult.getDate()?1:0));
+  return {y, ganados, usados, saldo:ganados-usados, prop:Math.round(meses*1.25*100)/100, prox:rhIso(new Date(a.getFullYear()+y+1, a.getMonth(), a.getDate()))};
+}
+const rhNivel = d => d<=7 ? 'r' : d<=30 ? 'a' : 'v';
+function rhVenc(w){
+  const it = [], lic = w.lic||{}, alt = w.altura||{};
+  if (lic.tiene) it.push(lic.vence ? {k:'Licencia de conducir clase '+(lic.clase||'B'), f:lic.vence, tipo:'lic'} : {k:'Licencia de conducir clase '+(lic.clase||'B'), falta:'Falta la fecha de vencimiento', tipo:'lic'});
+  if (alt.estado !== 'No aplica') {
+    if (!alt.vence) it.push({k:'Examen de altura física', falta: alt.estado ? 'Falta la fecha de vigencia' : 'Sin examen registrado', tipo:'alt'});
+    else it.push({k:'Examen de altura física', f:alt.vence, noapto: alt.estado==='No apto', tipo:'alt'});
+  }
+  (w.cursos||[]).forEach(c => { if (tstr(c.n)) it.push(c.vence ? {k:'Curso: '+c.n, f:c.vence, tipo:'cur'} : {k:'Curso: '+c.n, falta:'Falta la fecha de vencimiento', tipo:'cur'}); });
+  const hoy = rhHoy();
+  return it.map(x => { if (x.falta) return {...x, lv:'g'}; const d = rhDiff(hoy, rhD(x.f)); return {...x, d, lv: x.noapto ? 'r' : rhNivel(d)}; });
+}
+function rhSem(x){
+  if (x.lv==='g') return `<span class="sem g">${esc(x.falta)}</span>`;
+  if (x.noapto) return `<span class="sem r">No apto</span>`;
+  if (x.d<0) return `<span class="sem r">Vencido hace ${-x.d} día${x.d===-1?'':'s'}</span>`;
+  if (x.d===0) return `<span class="sem r">Vence hoy</span>`;
+  return `<span class="sem ${x.lv}">Vence en ${x.d} día${x.d===1?'':'s'}</span>`;
+}
+function rhAlertas(){
+  const out = [], hoy = rhHoy();
+  rhTrabs().forEach(w => {
+    rhVenc(w).forEach(x => { if (x.lv!=='v' || x.d<=60) out.push({w, ...x}); });
+    if (w.nac) { const n = rhD(w.nac); let cb = new Date(hoy.getFullYear(), n.getMonth(), n.getDate()); if (cb < hoy) cb = new Date(hoy.getFullYear()+1, n.getMonth(), n.getDate());
+      const dc = rhDiff(hoy, cb); if (dc<=15) out.push({w, k:'Cumpleaños', f:rhIso(cb), d:dc, lv:'i', info:true}); }
+    if (w.ingreso) { const v = rhVac(w), da = rhDiff(hoy, rhD(v.prox)); if (da<=30) out.push({w, k:`Cumple ${v.y+1} año${v.y?'s':''} en la empresa: suma 15 días de vacaciones`, f:v.prox, d:da, lv:'i', info:true}); }
+  });
+  const ord = {r:0,g:1,a:2,i:3,v:4};
+  return out.sort((a,b)=>ord[a.lv]-ord[b.lv] || (a.d??-999)-(b.d??-999));
+}
+const rhPendientes = () => S.ready && S.isOwner ? rhAlertas().filter(a=>a.lv==='r'||a.lv==='a'||a.lv==='g').length : 0;
+const rhAusHoy = () => { const t = today(); return [...S.rrhhaus.values()].filter(a=>a.desde<=t && t<=a.hasta && rhW(a.w)); };
+/* Para Informes: advertencia de aptitud del técnico (solo la ven los administradores) */
+function rhAptitud(nombre){
+  if (!S.isOwner || !S.rrhhtrab.size || !tstr(nombre)) return '';
+  const w = rhTrabs().find(x=>tstr(x.nombre).toLowerCase()===tstr(nombre).toLowerCase()); if (!w) return '';
+  const x = rhVenc(w).find(v=>v.tipo==='alt');
+  if ((w.altura||{}).estado==='No aplica') return '';
+  if (!x || x.lv==='g') return `<div class="warnbox a">${esc(w.nombre)} no tiene examen de altura vigente registrado en RRHH.</div>`;
+  if (x.noapto || x.d<0) return `<div class="warnbox r"><b>No asignar a trabajos en altura.</b> El examen de altura de ${esc(w.nombre)} ${x.noapto?'indica No apto':'venció el '+rhLargo(x.f)}.</div>`;
+  if (x.d<=30) return `<div class="warnbox a">Examen de altura de ${esc(w.nombre)} vigente, pero vence en ${x.d} día${x.d===1?'':'s'} (${rhLargo(x.f)}).</div>`;
+  return '';
+}
+
+/* ---------- vistas ---------- */
+Views.rrhh = () => {
+  if (!S.isOwner) return `<div class="empty" style="margin-top:20px">RRHH solo está disponible para los administradores.</div>`;
+  const n = rhPendientes(), t = S.rhTab || 'panel';
+  const body = ({panel:rhPanel, trab:rhTrabView, aus:rhAusView, prev:rhPrevView, acr:rhAcrView})[t] || rhPanel;
+  return `<div class="head"><div><h1>Recursos Humanos</h1><p>Fichas del personal, vencimientos, vacaciones y registros firmados.</p></div></div>
+  <div class="segnav" role="tablist">${RH_TABS.map(([k,l])=>`<button data-act="rh-tab" data-k="${k}" aria-current="${t===k}">${l}${k==='panel'&&n?` <span class="dot">${n}</span>`:''}</button>`).join('')}</div>${body()}`;
+};
+Views['rrhh-ficha'] = r => {
+  const w = rhW(r.id); if (!w) return `<div class="empty" style="margin-top:20px">No se encontró la ficha. <button class="btn" data-act="nav" data-k="rrhh">Volver a RRHH</button></div>`;
+  return rhFicha(w);
+};
+
+function rhAlRow(a){
+  const when = a.lv==='g' ? `<div class="when">—<small>sin dato</small></div>` : a.d<0 ? `<div class="when" style="color:var(--red)">${a.d}<small>días</small></div>` : `<div class="when">${a.d}<small>${a.d===1?'día':'días'}</small></div>`;
+  const sub = a.lv==='g' ? 'Ingresa el dato en la ficha para activar el aviso' : (a.info ? rhLargo(a.f) : (a.d<0?'Venció el ':'Vence el ')+rhLargo(a.f));
+  return `<button class="alrow ${a.lv}" data-act="nav" data-k="rrhh-ficha" data-id="${esc(a.w.id)}">${when}<div style="min-width:0"><div class="t">${esc(a.k)}</div><div class="s">${esc(a.w.nombre)} · ${sub}</div></div><div class="r">${a.info?'<span class="sem i">Aviso</span>':rhSem(a)}</div></button>`;
+}
+function rhPanel(){
+  const ws = rhTrabs(), al = rhAlertas(), venc = al.filter(a=>a.lv==='r'), prox = al.filter(a=>a.lv==='a'), falt = al.filter(a=>a.lv==='g'), hoy = rhAusHoy();
+  if (!ws.length) return `<div class="empty">Aún no hay trabajadores registrados.<button class="btn pri" data-act="rh-edit">+ Nuevo trabajador</button></div>`;
+  const indef = ws.filter(w=>w.contrato==='Indefinido').length;
+  return `<div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><span>Trabajadores</span><b>${ws.length}</b><small>${indef===ws.length?'todos con contrato indefinido':indef+' con contrato indefinido'}</small></div>
+    <div class="kpi ${venc.length?'alert':''}"><span>Vencidos o urgentes</span><b style="color:${venc.length?'var(--red)':'inherit'}">${venc.length}</b><small>vencidos o a 7 días o menos</small></div>
+    <div class="kpi"><span>Por vencer</span><b style="color:${prox.length?'var(--warn)':'inherit'}">${prox.length}</b><small>en los próximos 30 días</small></div>
+    <div class="kpi"><span>Ausentes hoy</span><b>${hoy.length}</b><small>${hoy.length?hoy.map(a=>esc(String(rhNom(a.w)).split(' ')[0])+' ('+esc(a.tipo.split(' (')[0].toLowerCase())+')').join(', '):'equipo completo'}</small></div>
+  </div>
+  <div class="secthead"><h2>Avisos</h2><span class="muted small">Aviso con 30, 15 y 7 días de anticipación. El número rojo en Administración y RRHH cuenta lo vencido, lo por vencer y los datos faltantes.</span></div>
+  <div class="list">${al.length?al.map(rhAlRow).join(''):'<div class="empty">Sin avisos pendientes.</div>'}</div>
+  ${falt.length?`<p class="hint" style="margin-top:8px">Los avisos grises son datos que faltan en la ficha. Sin la fecha, la app no puede avisar a tiempo. Si un examen no corresponde al cargo, márcalo como “No aplica”.</p>`:''}`;
+}
+function rhTrabView(){
+  const ws = rhTrabs(), inact = rhTrabs(true).filter(w=>w.activo===false);
+  const card = w => { const it = rhVenc(w), bad = it.filter(x=>x.lv==='r').length, warn = it.filter(x=>x.lv==='a').length, miss = it.filter(x=>x.lv==='g').length, v = rhVac(w);
+    return `<button class="item wk" data-act="nav" data-k="rrhh-ficha" data-id="${esc(w.id)}"><span class="av">${esc(rhIni(w.nombre))}</span><span style="min-width:0"><span class="t" style="display:block">${esc(w.nombre)}</span><span class="s">${esc(w.cargo||'Sin cargo')} · desde ${fdate(w.ingreso)}</span></span>
+    <span class="r"><span class="pills">${w.activo===false?'<span class="sem g">Inactivo</span>':''}${bad?`<span class="sem r">${bad} vencido${bad>1?'s':''}</span>`:''}${warn?`<span class="sem a">${warn} por vencer</span>`:''}${miss?`<span class="sem g">${miss} dato${miss>1?'s':''} faltante${miss>1?'s':''}</span>`:''}${w.activo!==false&&!bad&&!warn&&!miss?'<span class="sem v">Al día</span>':''}</span><span class="small muted">${v.saldo} días de vacaciones disponibles</span></span></button>`; };
+  return `<div class="row" style="justify-content:flex-end;margin-bottom:10px"><button class="btn pri" data-act="rh-edit">+ Nuevo trabajador</button></div>
+  <div class="list">${ws.length?ws.map(card).join(''):'<div class="empty">Aún no hay trabajadores registrados.</div>'}</div>
+  ${inact.length?`<div class="secthead"><h2>Inactivos</h2></div><div class="list">${inact.map(card).join('')}</div>`:''}`;
+}
+const rhKv = pairs => `<div class="kv">${pairs.map(([l,v])=>`<div><span>${l}</span><b>${v}</b></div>`).join('')}</div>`;
+function rhFicha(w){
+  const v = rhVac(w), it = rhVenc(w), alt = w.altura||{}, lic = w.lic||{}, em = w.emer||{}, ta = w.tallas||{};
+  const aus = [...S.rrhhaus.values()].filter(a=>a.w===w.id).sort((a,b)=>b.desde.localeCompare(a.desde));
+  const reg = [...S.rrhhreg.values()].filter(r=>r.w===w.id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  const pend = '<span class="zero">Por indicar</span>', val = x => tstr(x) ? esc(x) : pend;
+  return `<div class="row" style="margin:16px 0 12px"><button class="btn ghost sm" data-act="nav" data-k="rrhh">← Volver a RRHH</button></div>
+  <div class="panel fhead"><span class="av lg">${esc(rhIni(w.nombre))}</span><div class="grow"><h1>${esc(w.nombre)}</h1><div class="muted">${esc(w.cargo||'')}${w.activo===false?' · <b>Inactivo</b>':''}</div></div><div class="row"><button class="btn" data-act="rh-edit" data-id="${esc(w.id)}">Editar ficha</button><button class="btn pri" data-act="rh-aus" data-w="${esc(w.id)}">Registrar ausencia</button></div></div>
+  <div class="secgrid" style="margin-top:14px">
+    <div class="stack">
+      <div class="panel"><h3>Información básica</h3>${rhKv([['RUT',`<span class="num">${val(w.rut)}</span>`],['Fecha de nacimiento',w.nac?fdate(w.nac):pend],['Nacionalidad',val(w.nacionalidad)],['Estado civil',val(w.civil)],['Teléfono',val(w.tel)],['Correo',val(w.email)],['Domicilio',val(w.dir)],['Título',val(w.titulo)]])}${tstr(w.obs)?`<p class="small" style="margin:12px 0 0"><b>Observaciones:</b> ${esc(w.obs)}</p>`:''}</div>
+      <div class="panel"><h3>Contrato y previsión</h3>${rhKv([['Fecha de ingreso',fdate(w.ingreso)],['Antigüedad',v.y+' año'+(v.y===1?'':'s')],['Tipo de contrato',val(w.contrato)],['Jornada',val(w.jornada)],['AFP',val(w.afp)],['Salud',val(w.salud)],['Mutualidad',val(w.mutual)],['Feriado progresivo',w.progresivo&&w.progresivo!=='Por confirmar'?esc(w.progresivo):'<span class="zero">Por confirmar</span>']])}</div>
+      <div class="panel"><h3>Contacto de emergencia</h3>${rhKv([['Nombre',val(em.n)],['Parentesco',val(em.p)],['Teléfono',val(em.t)]])}</div>
+      <div class="panel"><h3>Tallas</h3>${rhKv([['Ropa',val(ta.ropa)],['Calzado',val(ta.calzado)]])}</div>
+    </div>
+    <div class="stack">
+      <div class="panel"><h3>Vencimientos</h3><div class="venc">${it.map(x=>`<div class="vrow"><span class="l">${esc(x.k)}</span>${x.lv==='v'?'<span class="sem v">Vigente</span>':rhSem(x)}<span class="d">${x.lv==='g'?'Completa este dato en “Editar ficha”':(x.tipo==='alt'?'Resultado: '+esc(alt.estado||'—')+' · ':'')+(x.f?'vigente hasta el '+rhLargo(x.f):'')}</span></div>`).join('')}
+        ${!lic.tiene?'<div class="vrow"><span class="l">Licencia de conducir</span><span class="sem g">No tiene</span></div>':''}${alt.estado==='No aplica'?'<div class="vrow"><span class="l">Examen de altura física</span><span class="sem g">No aplica</span></div>':''}</div>
+        <p class="hint" style="margin:10px 0 0">Del examen ocupacional solo se guarda Apto / No apto y la vigencia.</p></div>
+      <div class="panel"><h3>Vacaciones</h3>
+        <div class="balance"><div><span>Ganados</span><b>${v.ganados}</b></div><div><span>Tomados</span><b>${v.usados}</b></div><div class="main"><span>Disponibles</span><b>${v.saldo}</b></div></div>
+        <p class="small muted" style="margin:0">15 días hábiles por cada año cumplido${+w.diasExtra?`, más ${+w.diasExtra} día${+w.diasExtra===1?'':'s'} extra (progresivo u otro)`:''}. Desde su último aniversario acumula ${String(v.prop).replace('.',',')} días proporcionales; el ${rhLargo(v.prox)} suma 15 días más.</p></div>
+      <div class="panel"><h3>Ausencias</h3>${aus.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Tipo</th><th>Fechas</th><th class="r">Días hábiles</th><th></th></tr></thead><tbody>${aus.map(a=>`<tr><td>${esc(a.tipo)}${a.obs?`<div class="hint">${esc(a.obs)}</div>`:''}</td><td>${fdate(a.desde)}${a.hasta!==a.desde?' al '+fdate(a.hasta):''}</td><td class="r num">${rhHabiles(a.desde,a.hasta)}</td><td class="r"><button class="btn ghost sm" data-act="rh-aus" data-id="${esc(a.id)}">Editar</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted small" style="margin:0">Sin ausencias registradas.</p>'}</div>
+      <div class="panel"><h3>Registros firmados</h3>${reg.length?`<div class="list">${reg.map(r=>`<button class="item" data-act="rh-acta" data-id="${esc(r.id)}"><span style="min-width:0"><span class="t" style="display:block">${esc(r.tipo)}</span><span class="s">${fdate(r.fecha)} · ${(r.items||[]).length} ítem${(r.items||[]).length===1?'':'s'}</span></span><span class="r"><span class="lnk">Ver acta</span></span></button>`).join('')}</div>`:'<p class="muted small" style="margin:0">Sin registros todavía.</p>'}
+        <button class="btn sm" style="margin-top:10px" data-act="rh-reg" data-w="${esc(w.id)}">+ Nuevo registro con firma</button></div>
+    </div>
+  </div>`;
+}
+function rhAusView(){
+  const m = S.rhCal || (S.rhCal = new Date(rhHoy().getFullYear(), rhHoy().getMonth(), 1));
+  const y = m.getFullYear(), mo = m.getMonth(), first = (new Date(y,mo,1).getDay()+6)%7, days = new Date(y,mo+1,0).getDate(), t = today();
+  const all = [...S.rrhhaus.values()].filter(a=>rhW(a.w));
+  let cells = '';
+  for (let i=0;i<first;i++) cells += '<div class="c out"></div>';
+  for (let d=1; d<=days; d++){
+    const dt = new Date(y,mo,d), s = rhIso(dt), we = dt.getDay()===0||dt.getDay()===6, fer = RH_FERIADOS.has(s);
+    const ev = all.filter(a=>a.desde<=s && s<=a.hasta && (rhHabil(dt) || a.tipo==='Licencia médica'));
+    cells += `<div class="c ${we?'we':''} ${fer?'fer':''} ${s===t?'today':''}"><span class="n">${d}${fer?' · feriado':''}</span>${ev.map(a=>`<span class="ev ${a.tipo==='Vacaciones'?'vac':a.tipo==='Licencia médica'?'lic':'per'}" title="${esc(rhNom(a.w))} · ${esc(a.tipo)}">${esc(String(rhNom(a.w)).split(' ')[0])}</span>`).join('')}</div>`;
+  }
+  const list = all.sort((a,b)=>b.desde.localeCompare(a.desde));
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="calnav"><button class="btn sm" data-act="rh-cal" data-d="-1" aria-label="Mes anterior">‹</button><b>${RH_MES[mo]} ${y}</b><button class="btn sm" data-act="rh-cal" data-d="1" aria-label="Mes siguiente">›</button></div><button class="btn pri" data-act="rh-aus">+ Registrar ausencia</button></div>
+  <div class="panel"><div class="mcal">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(x=>`<div class="h">${x}</div>`).join('')}${cells}</div>
+  <div class="legend" style="margin-top:10px"><span><i style="background:var(--ok-bg);border:1px solid var(--ok)"></i>Vacaciones</span><span><i style="background:var(--info-bg);border:1px solid var(--info)"></i>Permiso</span><span><i style="background:var(--warn-bg);border:1px solid var(--warn)"></i>Licencia médica</span><span><i style="background:var(--red-bg)"></i>Feriado</span></div></div>
+  <div class="secthead"><h2>Saldo de vacaciones</h2><span class="muted small">Se cuentan solo días hábiles: lunes a viernes, sin feriados</span></div>
+  <div class="panel tblwrap"><table class="tbl"><thead><tr><th>Trabajador</th><th>Ingreso</th><th class="r">Ganados</th><th class="r">Tomados</th><th class="r">Disponibles</th><th>Próximo aniversario</th></tr></thead><tbody>${rhTrabs().map(w=>{const v=rhVac(w);return `<tr><td><button class="lnk" data-act="nav" data-k="rrhh-ficha" data-id="${esc(w.id)}">${esc(w.nombre)}</button></td><td>${fdate(w.ingreso)}</td><td class="r num">${v.ganados}</td><td class="r num">${v.usados}</td><td class="r num"><b>${v.saldo}</b></td><td>${fdate(v.prox)}</td></tr>`;}).join('')}</tbody></table></div>
+  <div class="secthead"><h2>Registro</h2></div>
+  ${list.length?`<div class="panel tblwrap"><table class="tbl"><thead><tr><th>Trabajador</th><th>Tipo</th><th>Fechas</th><th class="r">Días hábiles</th><th></th></tr></thead><tbody>${list.map(a=>`<tr><td>${esc(rhNom(a.w))}</td><td>${esc(a.tipo)}${a.obs?`<div class="hint">${esc(a.obs)}</div>`:''}</td><td>${fdate(a.desde)}${a.hasta!==a.desde?' al '+fdate(a.hasta):''}</td><td class="r num">${rhHabiles(a.desde,a.hasta)}</td><td class="r"><button class="btn ghost sm" data-act="rh-aus" data-id="${esc(a.id)}">Editar</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Sin ausencias registradas.</div>'}`;
+}
+function rhPrevView(){
+  const list = [...S.rrhhreg.values()].filter(r=>rhW(r.w)).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><p class="muted" style="margin:0;max-width:640px">Entregas de EPP, capacitaciones e información de riesgos, firmadas por el trabajador en la pantalla. Cada registro genera su acta en PDF.</p><button class="btn pri" data-act="rh-reg">+ Nuevo registro con firma</button></div>
+  <div class="list">${list.length?list.map(r=>`<button class="item" data-act="rh-acta" data-id="${esc(r.id)}"><span class="av">${esc(rhIni(rhNom(r.w)))}</span><span style="min-width:0"><span class="t" style="display:block">${esc(r.tipo)}</span><span class="s">${esc(rhNom(r.w))} · ${fdate(r.fecha)} · ${esc((r.items||[]).join(', '))}</span></span><span class="r"><span class="sem v">Firmado</span><span class="lnk small">Ver acta</span></span></button>`).join(''):'<div class="empty">Aún no hay registros firmados.</div>'}</div>`;
+}
+function rhAcrView(){
+  const ws = rhTrabs();
+  return `<div class="secgrid">
+  <div class="panel"><h3>Armar carpeta</h3><div class="form">
+    <div class="f"><label for="acr-l">Para qué es</label><input class="in" id="acr-l" placeholder="Ej.: Licitación 52-LE26 Carabineros" value="${esc(S.rhAcrL||'')}"></div>
+    <div class="f"><label>Personal a incluir</label><div class="pickw">${ws.map(w=>`<label><input type="checkbox" data-acr="${esc(w.id)}" checked><span><b>${esc(w.nombre)}</b><br><span class="small muted">${esc(w.cargo||'')}</span></span></label>`).join('')}</div></div>
+    <button class="btn pri" data-act="rh-acr">Revisar y generar carpeta</button></div></div>
+  <div class="panel"><h3>Qué incluye</h3><p class="small" style="margin-top:0">Por cada trabajador: identificación, título, cargo, fecha de ingreso, tipo de contrato, mutualidad, examen de altura (Apto / No apto y vigencia), licencia de conducir, cursos vigentes y última entrega de EPP.</p>
+  <p class="small muted">Antes de generarla, la app marca lo que está vencido o falta, para que lo resuelvas antes de postular. No incluye domicilio, teléfono ni contacto de emergencia.</p></div></div>`;
+}
+
+/* ---------- formularios ---------- */
+let RHF = null;
+function rhEditModal(id){
+  const w = id ? JSON.parse(JSON.stringify(rhW(id))) : {nombre:'', nacionalidad:'Chilena', contrato:'Indefinido', salud:'Fonasa', mutual:'Mutual', jornada:'42 h · lunes a sábado', lic:{tiene:false}, altura:{estado:''}, progresivo:'Por confirmar', cursos:[], tallas:{}, emer:{}, ingreso:today(), activo:true};
+  RHF = {id: id||null, cursos: (w.cursos||[]).map(c=>({...c}))};
+  const F = (k,l,v,c='c6',x='') => `<div class="f ${c}"><label for="rf-${k}">${l}</label><input class="in" id="rf-${k}" value="${esc(v??'')}" ${x}></div>`;
+  const SEL = (k,l,v,opts,c='c6') => `<div class="f ${c}"><label for="rf-${k}">${l}</label><select class="in" id="rf-${k}">${opts.map(o=>{const [val,lab]=Array.isArray(o)?o:[o,o];return `<option value="${esc(val)}" ${String(v??'')===val?'selected':''}>${esc(lab)}</option>`;}).join('')}</select></div>`;
+  const lic = w.lic||{}, alt = w.altura||{}, em = w.emer||{}, ta = w.tallas||{};
+  modal(`<div class="dlg" style="width:min(780px,100%)"><header><h2>${id?'Editar ficha':'Nuevo trabajador'}</h2>${id?`<p class="muted small" style="margin:0">${esc(w.nombre)}</p>`:''}</header><div class="body"><div class="form">
+    <h3>Información básica</h3><div class="grid">${F('nombre','Nombre completo <span class="req">*</span>',w.nombre,'c8')}${F('rut','RUT',w.rut,'c4')}${F('nac','Fecha de nacimiento',w.nac,'c4','type="date"')}${F('nacionalidad','Nacionalidad',w.nacionalidad,'c4')}${F('civil','Estado civil',w.civil,'c4')}${F('tel','Teléfono',w.tel,'c6','type="tel"')}${F('email','Correo',w.email,'c6','type="email"')}${F('dir','Domicilio',w.dir,'c12')}${F('titulo','Título',w.titulo,'c12')}</div>
+    <h3>Contrato y previsión</h3><div class="grid">${F('cargo','Cargo',w.cargo,'c8')}${F('ingreso','Fecha de ingreso <span class="req">*</span>',w.ingreso,'c4','type="date"')}${SEL('contrato','Tipo de contrato',w.contrato,['Indefinido','Plazo fijo','Por obra o faena'],'c4')}${F('jornada','Jornada',w.jornada,'c8','list="rf-jors"')}<datalist id="rf-jors"><option value="42 h · lunes a sábado"><option value="40 h · lunes a viernes"></datalist>${F('afp','AFP',w.afp,'c4','list="rf-afps"')}<datalist id="rf-afps">${['Capital','Cuprum','Habitat','Modelo','PlanVital','Provida','Uno'].map(a=>`<option value="${a}">`).join('')}</datalist>${F('salud','Salud',w.salud,'c4')}${F('mutual','Mutualidad',w.mutual,'c4')}
+      ${SEL('progresivo','Feriado progresivo (años cotizados antes)',w.progresivo||'Por confirmar',RH_PROG,'c8')}${F('diasExtra','Días de vacaciones extra',w.diasExtra||'','c4','type="number" min="0" inputmode="numeric" placeholder="0"')}</div>
+    <h3>Licencia de conducir</h3><div class="grid">${SEL('lict','¿Tiene?',lic.tiene?'1':'0',[['1','Sí'],['0','No']],'c4')}${F('licc','Clase',lic.clase||'','c4')}${F('licv','Vence',lic.vence||'','c4','type="date"')}</div>
+    <h3>Examen de altura física</h3><div class="grid">${SEL('alte','Resultado',alt.estado||'',[['','Sin registrar'],['Apto','Apto'],['No apto','No apto'],['No aplica','No aplica al cargo']],'c6')}${F('altv','Vigente hasta',alt.vence||'','c6','type="date"')}</div>
+    <h3>Cursos y certificaciones</h3><div id="rf-cursos"></div><div><button class="btn sm" data-act="rh-curso-add">+ Agregar curso</button></div>
+    <h3>Contacto de emergencia</h3><div class="grid">${F('emn','Nombre',em.n,'c6')}${F('emp','Parentesco',em.p,'c3')}${F('emt','Teléfono',em.t,'c3','type="tel"')}</div>
+    <h3>Tallas y observaciones</h3><div class="grid">${F('tropa','Talla de ropa',ta.ropa,'c3')}${F('tcalz','Talla de calzado',ta.calzado,'c3')}${F('obs','Observaciones',w.obs,'c6')}</div>
+    <label class="check"><input type="checkbox" id="rf-activo" ${w.activo!==false?'checked':''}><span>Trabajador activo <span class="muted small">(desmarca si deja la empresa; la ficha se conserva)</span></span></label>
+    <p class="err" id="rf-err"></p>
+  </div></div><footer>${id?`<button class="btn red" data-act="rh-del" data-id="${esc(id)}" style="margin-right:auto">Eliminar ficha</button>`:''}<button class="btn" data-act="close">Cancelar</button><button class="btn pri" data-act="rh-save">Guardar</button></footer></div>`);
+  rhDrawCursos();
+}
+function rhDrawCursos(){
+  const el = $('#rf-cursos'); if (!el) return;
+  el.innerHTML = RHF.cursos.length ? `<div class="stack" style="gap:8px">${RHF.cursos.map((c,i)=>`<div class="grid" style="align-items:end"><div class="f c6"><label for="rc-n${i}">Curso</label><input class="in" id="rc-n${i}" data-rc-i="${i}" data-rc-k="n" value="${esc(c.n||'')}" list="rf-cur-sug"></div><div class="f c4"><label for="rc-v${i}">Vence</label><input class="in" type="date" id="rc-v${i}" data-rc-i="${i}" data-rc-k="vence" value="${esc(c.vence||'')}"></div><div class="f c2"><button class="btn ghost sm" data-act="rh-curso-del" data-i="${i}">Quitar</button></div></div>`).join('')}</div><datalist id="rf-cur-sug"><option value="Trabajo en altura física"><option value="Manejo de refrigerantes"><option value="Primeros auxilios"><option value="Uso de extintores"><option value="Riesgo eléctrico"></datalist>` : '<p class="hint" style="margin:0">Sin cursos registrados.</p>';
+}
+document.addEventListener('input', e => { const el = e.target; if (RHF && el.dataset && el.dataset.rcI!=null) RHF.cursos[+el.dataset.rcI][el.dataset.rcK] = el.value; });
+async function rhSave(){
+  const g = k => tstr($('#rf-'+k)?.value), err = $('#rf-err');
+  if (!g('nombre')) { err.textContent = 'Falta el nombre completo.'; return; }
+  if (!g('ingreso')) { err.textContent = 'Falta la fecha de ingreso.'; return; }
+  const old = RHF.id ? rhW(RHF.id) : {};
+  const data = {...old, nombre:g('nombre'), rut:g('rut'), nac:g('nac'), nacionalidad:g('nacionalidad'), civil:g('civil'), tel:g('tel'), email:g('email'), dir:g('dir'), titulo:g('titulo'),
+    cargo:g('cargo'), ingreso:g('ingreso'), contrato:g('contrato'), jornada:g('jornada'), afp:g('afp'), salud:g('salud'), mutual:g('mutual'), progresivo:g('progresivo'), diasExtra:+g('diasExtra')||0,
+    lic:{tiene:g('lict')==='1', clase:g('licc'), vence:g('licv')}, altura:{estado:g('alte'), vence:g('alte')==='No aplica'?'':g('altv')},
+    cursos:RHF.cursos.map(c=>({n:tstr(c.n), vence:tstr(c.vence)})).filter(c=>c.n),
+    emer:{n:g('emn'), p:g('emp'), t:g('emt')}, tallas:{ropa:g('tropa'), calzado:g('tcalz')}, obs:g('obs'), activo:$('#rf-activo').checked};
+  delete data.id;
+  const id = RHF.id || uid('w');
+  try { busy(true); await Data.set('rrhhtrab', id, data); modal(''); RHF = null; toast('Ficha guardada'); if (S.route.name!=='rrhh-ficha') go('rrhh-ficha',{id, force:true}); }
+  catch(e){ err.textContent = writeErr(e); } finally { busy(false); }
+}
+
+function rhAusModal(id, wid){
+  const a = id ? S.rrhhaus.get(id) : {w: wid || rhTrabs()[0]?.id, tipo:'Vacaciones', desde:today(), hasta:today(), obs:''};
+  if (!rhTrabs().length) return toast('Primero registra un trabajador.');
+  modal(`<div class="dlg" style="width:min(520px,100%)"><header><h2>${id?'Editar ausencia':'Registrar ausencia'}</h2></header><div class="body"><div class="form" id="au-box">
+    <div class="f"><label for="au-w">Trabajador</label><select class="in" id="au-w">${rhTrabs(true).filter(w=>w.activo!==false||w.id===a.w).map(w=>`<option value="${esc(w.id)}" ${w.id===a.w?'selected':''}>${esc(w.nombre)}</option>`).join('')}</select></div>
+    <div class="f"><label for="au-t">Tipo</label><select class="in" id="au-t">${RH_TIPOS_AUS.map(t=>`<option ${t===a.tipo?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+    <div class="grid"><div class="f c6"><label for="au-d">Desde</label><input class="in" type="date" id="au-d" value="${esc(a.desde)}"></div><div class="f c6"><label for="au-h">Hasta</label><input class="in" type="date" id="au-h" value="${esc(a.hasta)}"></div></div>
+    <div class="f"><label for="au-o">Observación</label><input class="in" id="au-o" value="${esc(a.obs||'')}" placeholder="Opcional (sin diagnósticos)"></div>
+    <div class="calc"><div class="prev" id="au-prev"></div></div><p class="err" id="au-err"></p>
+  </div></div><footer>${id?`<button class="btn red" data-act="rh-aus-del" data-id="${esc(id)}" style="margin-right:auto">Eliminar</button>`:''}<button class="btn" data-act="close">Cancelar</button><button class="btn pri" data-act="rh-aus-save" data-id="${esc(id||'')}">Guardar</button></footer></div>`);
+  const box = $('#au-box'); box.addEventListener('input', rhAusPrev); box.addEventListener('change', rhAusPrev); rhAusPrev();
+}
+function rhAusPrev(){
+  const w = rhW($('#au-w').value), t = $('#au-t').value, d = $('#au-d').value, h = $('#au-h').value, el = $('#au-prev'), id = $('[data-act="rh-aus-save"]').dataset.id;
+  if (!d || !h || h<d) { el.innerHTML = '<span class="err">Revisa las fechas: “Hasta” debe ser igual o posterior a “Desde”.</span>'; return; }
+  const n = rhHabiles(d,h), v = rhVac(w), prev = id && S.rrhhaus.get(id)?.tipo==='Vacaciones' ? rhHabiles(S.rrhhaus.get(id).desde, S.rrhhaus.get(id).hasta) : 0, base = v.saldo + (id && S.rrhhaus.get(id)?.w===w.id ? prev : 0);
+  el.innerHTML = t==='Vacaciones'
+    ? `<div><span>Días hábiles</span><b>${n}</b></div><div><span>Saldo disponible</span><span>${base}</span></div><div><span>Saldo después</span><b style="color:${base-n<0?'var(--red)':'var(--ok)'}">${base-n}</b></div>${base-n<0?'<span class="err">Excede el saldo disponible. Puedes guardarlo igual si es un anticipo acordado.</span>':''}`
+    : `<div><span>Días hábiles</span><b>${n}</b></div><div class="hint">${t==='Licencia médica'?'Solo se guardan las fechas, sin diagnóstico.':'No descuenta vacaciones.'}</div>`;
+}
+async function rhAusSave(b){
+  const d = $('#au-d').value, h = $('#au-h').value, err = $('#au-err');
+  if (!d || !h || h<d) { err.textContent = 'Revisa las fechas.'; return; }
+  const id = b.dataset.id || uid('a');
+  try { busy(true); await Data.set('rrhhaus', id, {w:$('#au-w').value, tipo:$('#au-t').value, desde:d, hasta:h, obs:tstr($('#au-o').value), creado:today()}); modal(''); toast(b.dataset.id?'Ausencia actualizada':'Ausencia registrada'); }
+  catch(e){ err.textContent = writeErr(e); } finally { busy(false); }
+}
+
+let RHS = null;
+function rhRegModal(wid){
+  if (!rhTrabs().length) return toast('Primero registra un trabajador.');
+  RHS = {has:false};
+  modal(`<div class="dlg" style="width:min(640px,100%)"><header><h2>Nuevo registro con firma</h2></header><div class="body"><div class="form">
+    <div class="grid"><div class="f c6"><label for="rg-w">Trabajador</label><select class="in" id="rg-w">${rhTrabs().map(w=>`<option value="${esc(w.id)}" ${w.id===wid?'selected':''}>${esc(w.nombre)}</option>`).join('')}</select></div>
+    <div class="f c6"><label for="rg-t">Tipo de registro</label><select class="in" id="rg-t">${RH_TIPOS_REG.map(t=>`<option>${esc(t)}</option>`).join('')}</select></div>
+    <div class="f c6"><label for="rg-f">Fecha</label><input class="in" type="date" id="rg-f" value="${today()}"></div></div>
+    <div class="f" id="rg-items"></div>
+    <div class="f"><label>Firma del trabajador</label><div class="sigbox"><canvas id="rg-sig" aria-label="Recuadro de firma"></canvas><span class="sighint" id="rg-hint">Firme aquí con el dedo o el mouse</span></div><div><button class="btn ghost sm" data-act="rh-sig-clear">Borrar firma</button></div></div>
+    <p class="hint" style="margin:0">Al guardar se genera el acta con fecha, ítems y firma; la puedes descargar en PDF.</p><p class="err" id="rg-err"></p>
+  </div></div><footer><button class="btn" data-act="close">Cancelar</button><button class="btn pri" data-act="rh-reg-save">Guardar y ver acta</button></footer></div>`);
+  rhRegItems(); rhInitSig();
+  $('#rg-t').addEventListener('change', rhRegItems); $('#rg-w').addEventListener('change', rhRegItems);
+}
+function rhRegItems(){
+  const t = $('#rg-t').value, el = $('#rg-items');
+  if (t==='Entrega de EPP') { const w = rhW($('#rg-w').value), ta = w.tallas||{};
+    el.innerHTML = `<label>Elementos entregados${ta.ropa||ta.calzado?` <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:500">· tallas: ropa ${esc(ta.ropa||'—')}, calzado ${esc(ta.calzado||'—')}</span>`:''}</label><div class="epplist">${RH_EPP.map(e=>`<label><input type="checkbox" data-epp="${esc(e)}">${esc(e)}</label>`).join('')}</div><input class="in" id="rg-otro" placeholder="Otro elemento (opcional)" style="margin-top:6px">`; }
+  else el.innerHTML = `<label for="rg-tx">${t==='Capacitación'?'Tema de la capacitación':'Riesgos informados'}</label><textarea class="in" id="rg-tx" placeholder="${t==='Capacitación'?'Ej.: Uso correcto del arnés y línea de vida (2 horas)':'Ej.: Trabajo en altura; riesgo eléctrico; manejo de refrigerantes'}"></textarea><span class="hint">Un ítem por línea o separados por punto y coma.</span>`;
+}
+function rhInitSig(){
+  const cv = $('#rg-sig'), box = cv.parentElement, ratio = Math.max(1, window.devicePixelRatio||1), w = box.clientWidth, h = 160;
+  cv.width = Math.round(w*ratio); cv.height = Math.round(h*ratio); cv.style.width = w+'px'; cv.style.height = h+'px';
+  const x = cv.getContext('2d'); x.scale(ratio,ratio); x.fillStyle = '#fff'; x.fillRect(0,0,w,h);
+  x.lineWidth = 2.3; x.lineCap = 'round'; x.lineJoin = 'round'; x.strokeStyle = '#0E1B2E';
+  let drawing = false, last = null;
+  const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; };
+  cv.addEventListener('pointerdown', e => { drawing = true; last = pos(e); try{ cv.setPointerCapture(e.pointerId); }catch{} $('#rg-hint').hidden = true; x.beginPath(); x.arc(last[0],last[1],1.15,0,Math.PI*2); x.fillStyle='#0E1B2E'; x.fill(); RHS.has = true; e.preventDefault(); });
+  cv.addEventListener('pointermove', e => { if (!drawing) return; const p = pos(e); x.beginPath(); x.moveTo(last[0],last[1]); x.lineTo(p[0],p[1]); x.stroke(); last = p; e.preventDefault(); });
+  const end = () => { drawing = false; }; cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end); cv.addEventListener('pointerleave', end);
+}
+async function rhRegSave(){
+  const t = $('#rg-t').value, err = $('#rg-err'); let items;
+  if (t==='Entrega de EPP') { items = [...document.querySelectorAll('[data-epp]:checked')].map(i=>i.dataset.epp); const o = tstr($('#rg-otro').value); if (o) items.push(o); }
+  else items = String($('#rg-tx').value).split(/[\n;]+/).map(s=>s.trim()).filter(Boolean);
+  if (!items.length) { err.textContent = t==='Entrega de EPP' ? 'Marca al menos un elemento.' : 'Escribe al menos un ítem.'; return; }
+  if (!RHS.has) { err.textContent = 'Falta la firma del trabajador.'; return; }
+  const id = uid('r');
+  try {
+    busy(true); err.textContent = 'Guardando…';
+    const blob = await (await fetch($('#rg-sig').toDataURL('image/jpeg', 0.88))).blob();
+    const firma = await Data.upload(blob, {priv:true, type:'image/jpeg'});
+    await Data.set('rrhhreg', id, {w:$('#rg-w').value, tipo:t, fecha:$('#rg-f').value||today(), items, firma, creado:today(), creadoPor:S.uid||''});
+    toast('Registro guardado'); rhActaModal(id);
+  } catch(e){ err.textContent = writeErr(e); } finally { busy(false); }
+}
+const rhActaTitulo = t => t==='Entrega de EPP' ? 'Acta de entrega de EPP' : t==='Capacitación' ? 'Registro de capacitación' : 'Información de riesgos laborales';
+const rhActaTexto = t => t==='Entrega de EPP' ? 'Declaro recibir los elementos de protección personal indicados, en buen estado, y me comprometo a usarlos correctamente y a informar su deterioro o pérdida.'
+  : t==='Capacitación' ? 'Declaro haber participado en la capacitación indicada y haber comprendido sus contenidos.'
+  : 'Declaro haber sido informado de los riesgos de mi puesto de trabajo, de las medidas preventivas y de los métodos de trabajo correctos.';
+function rhActaModal(id){
+  const r = S.rrhhreg.get(id), w = rhW(r.w) || {nombre:'—'};
+  const col = r.tipo==='Entrega de EPP' ? 'Elemento' : r.tipo==='Capacitación' ? 'Contenido' : 'Riesgo informado';
+  modal(`<div class="dlg" style="width:min(720px,100%)"><header><h2>${esc(rhActaTitulo(r.tipo))}</h2><p class="muted small" style="margin:0">${esc(w.nombre)} · ${fdate(r.fecha)}</p></header><div class="body"><div class="doc">
+    <table><tr><th>Trabajador</th><td>${esc(w.nombre)}</td><th>RUT</th><td>${esc(w.rut||'—')}</td></tr><tr><th>Cargo</th><td>${esc(w.cargo||'—')}</td><th>Fecha</th><td>${fdate(r.fecha)}</td></tr></table>
+    <table><thead><tr><th style="width:40px">N°</th><th>${col}</th></tr></thead><tbody>${(r.items||[]).map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it)}</td></tr>`).join('')}</tbody></table>
+    <p style="margin:0">${rhActaTexto(r.tipo)}</p>
+    <div class="sig"><div>${r.firma?`<img src="${esc(Data.photoSrc(r.firma))}" alt="Firma del trabajador">`:''}<div class="ln">Firma del trabajador<br>${esc(w.nombre)}</div></div></div>
+  </div><p class="small" id="pdfmsg" style="margin:8px 0 0"></p></div><footer><button class="btn red" data-act="rh-reg-del" data-id="${esc(id)}" style="margin-right:auto">Eliminar</button><button class="btn" data-act="close">Cerrar</button><button class="btn pri" data-act="rh-acta-pdf" data-id="${esc(id)}">Descargar PDF</button></footer></div>`);
+}
+
+/* ---------- PDF ---------- */
+async function rhImgData(id){
+  const res = await fetch(Data.photoSrc(id)); if (!res.ok) throw new Error('No se pudo leer la firma');
+  const b = await res.blob(); return await new Promise((ok,ko)=>{ const fr = new FileReader(); fr.onload = () => ok(fr.result); fr.onerror = ko; fr.readAsDataURL(b); });
+}
+async function rhPdfBase(title, sub){
+  const {jsPDF} = window.jspdf, doc = new jsPDF({unit:'mm', format:'a4'});
+  const _t = doc.text.bind(doc), _s = doc.splitTextToSize.bind(doc);
+  doc.text = (t,...a) => _t(Array.isArray(t)?t.map(pdfSafe):pdfSafe(t), ...a);
+  doc.splitTextToSize = (t,...a) => _s(pdfSafe(t), ...a);
+  const lm = await getLogoMeta(), M = 14, W = 182, NAVY=[11,42,91], RED=[200,25,31], INK=[20,28,40], MUT=[95,108,128], LINE=[205,214,226], SOFT=[238,242,247];
+  const font = (st='normal', sz=9.5, col=INK) => { doc.setFont('helvetica', st); doc.setFontSize(sz); doc.setTextColor(...col); };
+  const head = () => { const lw = 38; doc.addImage(LOGO,'PNG',M,10,lw,lw*lm.h/lm.w); font('bold',13,NAVY); doc.text(title.toUpperCase(), M+W, 16, {align:'right'});
+    font('normal',8,MUT); doc.text(`${S.cfg.razon} · RUT ${S.cfg.rut} · ${S.cfg.direccion}`, M+W, 21, {align:'right'}); if (sub) doc.text(sub, M+W, 25, {align:'right'});
+    doc.setDrawColor(...RED); doc.setLineWidth(0.6); doc.line(M,29,M+W,29); };
+  head();
+  const P = {doc, M, W, NAVY, RED, INK, MUT, LINE, SOFT, font, y:37, head};
+  P.ensure = h => { if (P.y + h > 278) { doc.addPage(); head(); P.y = 37; } };
+  P.row = (cells, widths, opt={}) => { // cells: [{t, b, col}]
+    const lines = cells.map((c,i)=>doc.splitTextToSize(String(c.t??''), widths[i]-4)), h = Math.max(6.5, ...lines.map(l=>l.length*4+2.6));
+    P.ensure(h); let x = M;
+    cells.forEach((c,i)=>{ if (c.fill) { doc.setFillColor(...c.fill); doc.rect(x,P.y,widths[i],h,'F'); } doc.setDrawColor(...LINE); doc.setLineWidth(0.25); doc.rect(x,P.y,widths[i],h);
+      font(c.b?'bold':'normal', c.sz||8.8, c.col||INK); doc.text(lines[i], x+2, P.y+4.4); x += widths[i]; });
+    P.y += h;
+  };
+  P.foot = name => { const n = doc.getNumberOfPages(); for (let p=1;p<=n;p++){ doc.setPage(p); doc.setDrawColor(...LINE); doc.setLineWidth(0.3); doc.line(M,287,M+W,287); font('normal',7.2,MUT); doc.text(S.cfg.razon+' · '+name, M, 291); doc.text('Página '+p+' de '+n, M+W, 291, {align:'right'}); } };
+  return P;
+}
+async function rhSavePdf(blob, name){
+  const msg = $('#pdfmsg');
+  const dl = downloads || { async save({filename, data}){ const url = URL.createObjectURL(data), a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 60000); } };
+  try { await dl.save({filename:name, data:blob}); if (msg) msg.textContent = 'Listo: '+name; } catch(e){ if (msg) msg.textContent = 'No se pudo descargar el PDF.'; }
+}
+const rhSlug = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'').toUpperCase().slice(0,40);
+async function rhActaPdf(b){
+  const r = S.rrhhreg.get(b.dataset.id), w = rhW(r.w) || {nombre:'—'}, msg = $('#pdfmsg');
+  if (!window.jspdf) { msg.textContent = 'No se pudo cargar el generador de PDF. Revisa tu conexión y recarga la página.'; return; }
+  b.disabled = true; msg.textContent = 'Generando PDF…';
+  try {
+    const title = rhActaTitulo(r.tipo), P = await rhPdfBase(title, 'Fecha: '+fdate(r.fecha)), {doc, M, W, SOFT} = P;
+    const L = {fill:SOFT, b:true, sz:8};
+    P.row([{...L,t:'Trabajador'},{t:w.nombre},{...L,t:'RUT'},{t:w.rut||'—'}],[30,80,22,50]);
+    P.row([{...L,t:'Cargo'},{t:w.cargo||'—'},{...L,t:'Fecha'},{t:fdate(r.fecha)}],[30,80,22,50]);
+    P.y += 6;
+    P.row([{...L,t:'N°'},{...L,t:r.tipo==='Entrega de EPP'?'Elemento':r.tipo==='Capacitación'?'Contenido':'Riesgo informado'}],[14,168]);
+    (r.items||[]).forEach((it,i)=>P.row([{t:String(i+1)},{t:it}],[14,168]));
+    P.y += 8; P.ensure(20); P.font('normal',9.5); const tx = doc.splitTextToSize(rhActaTexto(r.tipo), W); doc.text(tx, M, P.y); P.y += tx.length*4.6 + 8;
+    P.ensure(48);
+    if (r.firma) { try { const img = await rhImgData(r.firma); doc.addImage(img, 'JPEG', M+10, P.y, 60, 24); } catch {} }
+    doc.setDrawColor(40,40,40); doc.setLineWidth(0.3); doc.line(M+5, P.y+27, M+75, P.y+27); doc.line(M+W-75, P.y+27, M+W-5, P.y+27);
+    P.font('normal',8.5); doc.text('Firma del trabajador', M+40, P.y+31, {align:'center'}); doc.text(w.nombre, M+40, P.y+35, {align:'center'});
+    doc.text('Por la empresa', M+W-40, P.y+31, {align:'center'}); doc.text(S.cfg.razon, M+W-40, P.y+35, {align:'center'});
+    const name = rhSlug(title)+'_'+rhSlug(w.nombre)+'_'+r.fecha+'.pdf';
+    P.foot(title+' · '+w.nombre);
+    await rhSavePdf(doc.output('blob'), name);
+  } catch(e){ console.error(e); msg.textContent = 'No se pudo generar el PDF: '+(e.message||e); } finally { b.disabled = false; }
+}
+function rhAcrCheck(ids){
+  let faltas = [];
+  ids.forEach(id => { const w = rhW(id), it = rhVenc(w);
+    it.forEach(x => { if (x.lv==='g') faltas.push(`${w.nombre}: ${x.k.toLowerCase()} · ${x.falta.toLowerCase()}`); else if (x.lv==='r' && (x.noapto||x.d<0)) faltas.push(`${w.nombre}: ${x.k.toLowerCase()} · ${x.noapto?'no apto':'vencido'}`); });
+    if (![...S.rrhhreg.values()].some(r=>r.w===id && r.tipo==='Entrega de EPP')) faltas.push(`${w.nombre}: sin registro de entrega de EPP`);
+  });
+  return faltas;
+}
+function rhAcrModal(){
+  const ids = [...document.querySelectorAll('[data-acr]:checked')].map(i=>i.dataset.acr); S.rhAcrL = tstr($('#acr-l').value);
+  if (!ids.length) return toast('Elige al menos un trabajador.');
+  const f = rhAcrCheck(ids); S.rhAcrIds = ids;
+  modal(`<div class="dlg" style="width:min(560px,100%)"><header><h2>Carpeta de acreditación</h2><p class="muted small" style="margin:0">${esc(S.rhAcrL||'Acreditación de personal')} · ${ids.length} trabajador${ids.length>1?'es':''}</p></header><div class="body">
+    ${f.length?`<div class="warnbox r"><b>${f.length} punto${f.length>1?'s':''} vencido${f.length>1?'s':''} o faltante${f.length>1?'s':''}.</b> Aparecerán en rojo en el PDF.</div><ul class="small" style="margin:10px 0 0;padding-left:18px">${f.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<div class="warnbox v">Todo vigente. La carpeta está lista.</div>'}
+    <p class="small" id="pdfmsg" style="margin:10px 0 0"></p></div><footer><button class="btn" data-act="close">Cerrar</button><button class="btn pri" data-act="rh-acr-pdf">Descargar PDF</button></footer></div>`);
+}
+async function rhAcrPdf(b){
+  const msg = $('#pdfmsg'); if (!window.jspdf) { msg.textContent = 'No se pudo cargar el generador de PDF.'; return; }
+  b.disabled = true; msg.textContent = 'Generando PDF…';
+  try {
+    const lab = S.rhAcrL || 'Acreditación de personal', P = await rhPdfBase('Acreditación de personal', lab), {doc, M, NAVY, SOFT, RED} = P;
+    P.font('normal',9.5); doc.text(`${lab} · emitido el ${rhLargo(today())} · ${S.rhAcrIds.length} trabajador${S.rhAcrIds.length>1?'es':''}`, M, P.y); P.y += 7;
+    const L = {fill:SOFT, b:true, sz:8}, OK = [30,127,79];
+    const st = x => { if (!x) return {t:'No aplica'}; if (x.lv==='g') return {t:x.falta, col:RED, b:true}; if (x.noapto) return {t:'No apto', col:RED, b:true}; if (x.d<0) return {t:'Vencido el '+fdate(x.f), col:RED, b:true}; return {t:'Apto · vigente hasta '+fdate(x.f), col:OK}; };
+    S.rhAcrIds.forEach((id,k) => {
+      const w = rhW(id), it = rhVenc(w), alt = it.find(x=>x.tipo==='alt'), lic = it.find(x=>x.tipo==='lic'), al = w.altura||{};
+      const epp = [...S.rrhhreg.values()].filter(r=>r.w===id && r.tipo==='Entrega de EPP').sort((a,b)=>b.fecha.localeCompare(a.fecha))[0];
+      P.ensure(64); if (k) P.y += 5;
+      P.row([{t:`${w.nombre}  ·  RUT ${w.rut||'—'}`, b:true, fill:NAVY, col:[255,255,255]}],[182]);
+      P.row([{...L,t:'Cargo'},{t:w.cargo||'—'},{...L,t:'Ingreso'},{t:fdate(w.ingreso)}],[30,90,22,40]);
+      P.row([{...L,t:'Título'},{t:w.titulo||'—'}],[30,152]);
+      P.row([{...L,t:'Contrato'},{t:w.contrato||'—'},{...L,t:'Mutualidad'},{t:w.mutual||'—'}],[30,90,22,40]);
+      const altC = al.estado==='No aplica' ? {t:'No aplica al cargo'} : alt && alt.lv!=='g' && !alt.noapto && alt.d>=0 ? {t:'Apto · vigente hasta '+fdate(alt.f), col:OK} : st(alt);
+      const licC = (w.lic||{}).tiene ? (lic.lv==='g' ? {t:'Clase '+(w.lic.clase||'B')+' · falta vencimiento', col:RED, b:true} : lic.d<0 ? {t:'Clase '+(w.lic.clase||'B')+' · vencida '+fdate(lic.f), col:RED, b:true} : {t:'Clase '+(w.lic.clase||'B')+' · vigente hasta '+fdate(lic.f), col:OK}) : {t:'No tiene'};
+      P.row([{...L,t:'Examen altura'},altC,{...L,t:'Licencia'},licC],[30,70,22,60]);
+      P.row([{...L,t:'Cursos'},{t:(w.cursos||[]).length?(w.cursos||[]).map(c=>c.n+(c.vence?' (hasta '+fdate(c.vence)+')':'')).join('; '):'—'}],[30,152]);
+      P.row([{...L,t:'Última entrega EPP'},epp?{t:fdate(epp.fecha)+' · '+(epp.items||[]).join(', ')}:{t:'Sin registro', col:RED, b:true}],[30,152]);
+    });
+    P.foot('Acreditación de personal · '+lab);
+    await rhSavePdf(doc.output('blob'), 'Acreditacion_'+rhSlug(lab)+'_'+today()+'.pdf');
+  } catch(e){ console.error(e); msg.textContent = 'No se pudo generar el PDF: '+(e.message||e); } finally { b.disabled = false; }
+}
+
+Object.assign(ACT, {
+  'rh-tab': b => { S.rhTab = b.dataset.k; if (S.route.name!=='rrhh') go('rrhh'); else render(); },
+  'rh-cal': b => { const m = S.rhCal; S.rhCal = new Date(m.getFullYear(), m.getMonth()+(+b.dataset.d), 1); render(); },
+  'rh-edit': b => rhEditModal(b.dataset.id),
+  'rh-save': rhSave,
+  'rh-curso-add': () => { RHF.cursos.push({n:'',vence:''}); rhDrawCursos(); $('#rc-n'+(RHF.cursos.length-1))?.focus(); },
+  'rh-curso-del': b => { RHF.cursos.splice(+b.dataset.i,1); rhDrawCursos(); },
+  'rh-del': b => { if (b.dataset.confirm!=='1') { b.dataset.confirm='1'; b.textContent='¿Eliminar? Toca de nuevo'; return; }
+    (async()=>{ const id=b.dataset.id; try { busy(true);
+      for (const a of [...S.rrhhaus.values()].filter(x=>x.w===id)) await Data.del('rrhhaus', a.id);
+      for (const r of [...S.rrhhreg.values()].filter(x=>x.w===id)) { await Data.del('rrhhreg', r.id); if (r.firma) Data.dropPhoto(r.firma); }
+      await Data.del('rrhhtrab', id); modal(''); toast('Ficha eliminada'); go('rrhh',{force:true}); } catch(e){ $('#rf-err').textContent = writeErr(e); } finally { busy(false); } })(); },
+  'rh-aus': b => rhAusModal(b.dataset.id, b.dataset.w),
+  'rh-aus-save': rhAusSave,
+  'rh-aus-del': async b => { if (b.dataset.confirm!=='1') { b.dataset.confirm='1'; b.textContent='¿Eliminar? Toca de nuevo'; return; } try { await Data.del('rrhhaus', b.dataset.id); modal(''); toast('Ausencia eliminada'); } catch(e){ $('#au-err').textContent = writeErr(e); } },
+  'rh-reg': b => rhRegModal(b.dataset.w),
+  'rh-reg-save': rhRegSave,
+  'rh-sig-clear': () => { const cv = $('#rg-sig'), x = cv.getContext('2d'); x.save(); x.setTransform(1,0,0,1,0,0); x.fillStyle='#fff'; x.fillRect(0,0,cv.width,cv.height); x.restore(); RHS.has = false; $('#rg-hint').hidden = false; },
+  'rh-acta': b => rhActaModal(b.dataset.id),
+  'rh-acta-pdf': rhActaPdf,
+  'rh-reg-del': async b => { if (b.dataset.confirm!=='1') { b.dataset.confirm='1'; b.textContent='¿Eliminar acta? Toca de nuevo'; return; } const r = S.rrhhreg.get(b.dataset.id); try { await Data.del('rrhhreg', r.id); if (r.firma) Data.dropPhoto(r.firma); modal(''); toast('Registro eliminado'); } catch(e){ toast(writeErr(e)); } },
+  'rh-acr': rhAcrModal,
+  'rh-acr-pdf': rhAcrPdf
+});
+
+function DemoRRHH(){
+  const r = n => rhIso(rhAdd(rhHoy(), n));
+  const ej = [
+    ['wEj1',{nombre:'Andrés Molina (ejemplo)',rut:'11.111.111-1',nac:'1985-06-18',nacionalidad:'Chilena',civil:'Casado',tel:'+56 9 1111 1111',email:'ejemplo@correo.cl',dir:'Calle Ejemplo 123, Hualpén',titulo:'Técnico en Refrigeración',cargo:'Técnico Senior / Supervisor',ingreso:'2025-05-01',contrato:'Indefinido',afp:'',salud:'Fonasa',mutual:'Mutual',jornada:'42 h · lunes a sábado',lic:{tiene:true,clase:'B',vence:r(12)},altura:{estado:'Apto',vence:r(26)},progresivo:'Por confirmar',cursos:[{n:'Trabajo en altura física',vence:r(210)}],tallas:{ropa:'L',calzado:'42'},emer:{n:'Contacto ejemplo',p:'Cónyuge',t:'+56 9 2222 2222'},activo:true}],
+    ['wEj2',{nombre:'Diego Paredes (ejemplo)',rut:'33.333.333-3',nac:'2006-09-08',nacionalidad:'Chilena',civil:'Soltero',tel:'+56 9 5555 5555',email:'ejemplo2@correo.cl',dir:'Pasaje Ejemplo 789, Hualpén',titulo:'Técnico en Climatización',cargo:'Técnico especialista en climatización',ingreso:'2026-01-02',contrato:'Indefinido',afp:'',salud:'Fonasa',mutual:'Mutual',jornada:'42 h · lunes a sábado',lic:{tiene:false},altura:{estado:'Apto',vence:r(-6)},progresivo:'Por confirmar',cursos:[],tallas:{ropa:'M',calzado:'40'},emer:{n:'Contacto ejemplo',p:'Padre',t:'+56 9 6666 6666'},activo:true}]];
+  ej.forEach(([id,d])=>S.rrhhtrab.set(id,{id,...d}));
+  S.rrhhaus.set('aEj1',{id:'aEj1',w:'wEj1',tipo:'Vacaciones',desde:r(10),hasta:r(14),obs:''});
 }
 
 render();
