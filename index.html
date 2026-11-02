@@ -659,7 +659,7 @@ function render(){
   if (S.login) { $('#areas').innerHTML=''; $('#who').innerHTML=''; $('#view').innerHTML = loginView(); return; }
   const nAg = S.ready ? agendaPendientes().length : 0;
   const nFin = S.ready && S.isOwner ? finIngs().filter(vencida).length : 0;
-  $('#areas').innerHTML = (S.isOwner || S.demo ? AREAS : AREAS.filter(a=>a[0]==='auto')).map(([k,l])=>`<button data-act="area" data-k="${k}" aria-current="${S.area===k}">${l}${k==='admin'&&(nAg+nFin)?`<span class="dot">${nAg+nFin}</span>`:''}</button>`).join('');
+  $('#areas').innerHTML = (S.isOwner || S.demo ? AREAS : AREAS.filter(a=>a[0]==='auto'||a[0]==='inf')).map(([k,l])=>`<button data-act="area" data-k="${k}" aria-current="${S.area===k}">${l}${k==='admin'&&(nAg+nFin)?`<span class="dot">${nAg+nFin}</span>`:''}</button>`).join('');
   $('#who').innerHTML = S.demo ? 'Modo demostración' : S.nombre ? `<span class="nm">${esc(S.nombre)}</span><button type="button" data-act="cuenta">Cuenta</button>` : '';
   const ae = document.activeElement, aid = ae && ae.id, sel = ae && ae.selectionStart;
   const v = $('#view');
@@ -686,7 +686,7 @@ function tabOf(n){
 }
 function switchArea(a){
   if (S.area===a) return;
-  if (!S.isOwner && !S.demo && a!=='auto') return;
+  if (!S.isOwner && !S.demo && a!=='auto' && a!=='inf') return;
   S.lastRoute[S.area] = S.route; S.area = a;
   const last = S.lastRoute[a];
   S.route = last && !/nuev|editar|ajustes/.test(last.name) ? last : {name: ({admin:'cotizaciones', pmp:'pmp', inf:'inf-inst'})[a] || 'inicio'};
@@ -2615,7 +2615,7 @@ function DemoFin(){
 
 Object.assign(ACT, {
   'lg-olvido': () => Auth.olvido(),
-  'cuenta': () => modal(`<div class="dlg" style="width:min(420px,100%)"><header><h2>${esc(S.nombre)}</h2><p class="muted small" style="margin:0">${esc(S.email)} · ${S.isOwner?'Acceso total':'Acceso Automotriz'}</p></header>
+  'cuenta': () => modal(`<div class="dlg" style="width:min(420px,100%)"><header><h2>${esc(S.nombre)}</h2><p class="muted small" style="margin:0">${esc(S.email)} · ${S.isOwner?'Acceso total':'Acceso Automotriz e Informes'}</p></header>
     <div class="body"><p class="small muted" style="margin:0">Para instalar la app en el teléfono: abre el menú del navegador y elige "Agregar a pantalla de inicio" o "Instalar app".</p></div>
     <footer><button class="btn red" style="margin-right:auto" data-act="logout">Cerrar sesión</button><button class="btn" data-act="pw-modal">Cambiar contraseña</button><button class="btn pri" data-act="close">Listo</button></footer></div>`),
   'pw-modal': () => passModal(false),
