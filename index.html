@@ -349,6 +349,24 @@ textarea.in{min-height:92px;resize:vertical}
 }
 @media (max-width:420px){ .stats{grid-template-columns:repeat(2,1fr)} .plateinput input{font-size:24px} .svc{grid-template-columns:1fr auto}.svc code{display:none} }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* informes */
+.cantbox{display:inline-grid;place-items:center;min-width:56px;height:38px;border:1px solid var(--line);border-radius:8px;font-weight:700;font-size:18px;background:var(--surface)}
+.eqp{border-left:4px solid var(--primary)}
+.ckl{display:grid;gap:6px}
+.ckr{display:grid;grid-template-columns:1fr 160px auto;gap:10px;align-items:center;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.ckr .ckl-l{font-weight:600;font-size:14px}
+.ckv .in{padding:6px 72px 6px 8px;background:var(--surface)}
+.ckseg button{min-width:44px}
+.ckseg button[data-s="ok"][aria-pressed="true"]{background:var(--ok);color:#fff}
+.ckseg button[data-s="nc"][aria-pressed="true"]{background:var(--red);color:#fff}
+.ckseg button[data-s="na"][aria-pressed="true"]{background:var(--muted);color:#fff}
+.ck{display:inline-block;min-width:36px;text-align:center;font-size:11.5px;font-weight:700;border-radius:5px;padding:1px 6px;background:var(--grey-bg);color:var(--muted);flex:none}
+.ck-ok{background:var(--ok-bg);color:var(--ok)}.ck-nc{background:var(--red-bg);color:var(--red)}
+.dtbox{background:none;font-weight:700;font-family:var(--f-mono)}
+.sigbox{position:relative;border:1.5px dashed var(--muted);border-radius:10px;background:#fff;overflow:hidden;margin-bottom:6px}
+.sigbox canvas{display:block;touch-action:none;cursor:crosshair}
+.sighint{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#9AA6B6;font-size:13px;pointer-events:none}
+@media (max-width:760px){ .ckr{grid-template-columns:1fr auto} .ckr .ckv{grid-column:1 / -1;order:3} .ckr .ckv:empty{display:none} }
 </style>
 
 <header class="top">
@@ -411,12 +429,12 @@ const DEFAULT_CFG = {
 const S = {
   area:'auto', route:{name:'inicio'}, demo:false, ready:false,
   clientes:new Map(), vehiculos:new Map(), trabajos:new Map(), catalogo:new Map(),
-  cotizaciones:new Map(), clientesadm:new Map(), catalogoadm:new Map(), instalaciones:new Map(), pmp:new Map(), finingresos:new Map(), fingastos:new Map(), finrecurrentes:new Map(), finomit:new Map(), finconfig:null, isOwner:false, lastRoute:{}, qcot:'', fcot:'todas',
+  cotizaciones:new Map(), clientesadm:new Map(), catalogoadm:new Map(), instalaciones:new Map(), pmp:new Map(), finingresos:new Map(), fingastos:new Map(), finrecurrentes:new Map(), finomit:new Map(), informes:new Map(), finconfig:null, isOwner:false, lastRoute:{}, qcot:'', fcot:'todas',
   cfg:{...DEFAULT_CFG}, canEdit:false, canWrite:true, uid:null,
   editing:false, filtro:'abiertos', q:'', qc:'', qcat:''
 };
 let sb=null, rt=null, assets=null, downloads=null;
-const COLS = ['clientes','vehiculos','trabajos','catalogo','cotizaciones','clientesadm','catalogoadm','instalaciones','pmp','finingresos','fingastos','finrecurrentes','finomit'];
+const COLS = ['clientes','vehiculos','trabajos','catalogo','cotizaciones','clientesadm','catalogoadm','instalaciones','pmp','finingresos','fingastos','finrecurrentes','finomit','informes'];
 
 /* Every row of table docs is one document: (col, id) -> data. Single documents config/empresa and finconfig/general live there too. */
 function applyDoc(col, id, data){
@@ -532,7 +550,7 @@ const Data = {
     await Data.set('config', 'empresa', data);
   },
   async nextNumero(name='trabajos'){
-    const coll = name==='cotizaciones' ? S.cotizaciones : S.trabajos;
+    const coll = ({cotizaciones:S.cotizaciones, informes:S.informes})[name] || S.trabajos;
     if (S.demo) { Demo.counters[name] = Math.max(Demo.counters[name]||0, ...[...coll.values()].map(t=>t.numero||0)) + 1; return Demo.counters[name]; }
     const usados = [...coll.values()].reduce((m,t)=>Math.max(m,t.numero||0),0);
     const { data, error } = await sb.rpc('next_numero', { p_name:name, p_usados:usados });
@@ -579,7 +597,7 @@ const Demo = {
     S.clientes.set('cEj',{id:'cEj',nombre:'Cliente de ejemplo',celular:'+56 9 1234 5678',correo:'ejemplo@correo.cl',rut:'',creado:today()});
     S.vehiculos.set('vEj',{id:'vEj',patente:'ABCD12',marca:'Toyota',modelo:'Yaris',anio:2018,clienteId:'cEj'});
     S.trabajos.set('tEj',{id:'tEj',numero:1,vehiculoId:'vEj',clienteId:'cEj',fecha:today(),km:84500,tecnico:'Técnico de ejemplo',estado:'terminado',refrigerante:'R-134a',gramos:450,pAlta:180,pBaja:32,tSalida:6,diagnostico:'Ejemplo: baja carga de refrigerante, fuga en o-ring de válvula de servicio.',trabajo:'Ejemplo: cambio de o-ring, prueba de hermeticidad, vacío y carga.',comentarios:'Ejemplo: realizar mantención anual del sistema.',items:[{codigo:'AA-01',nombre:'Revisión base / Diagnóstico (ejemplo)',cant:1,precio:25000,unidad:'servicio'}],repuestos:[{desc:'O-ring válvula de servicio (ejemplo)',cant:2,precio:3000}],garantia:true,fotos:[]});
-    DemoAdm.load(); DemoPmp();
+    DemoAdm.load(); DemoPmp(); DemoInf();
     DemoFin();
     S.ready = true; S.canEdit = true; S.isOwner = true;
   },
@@ -621,7 +639,7 @@ function modal(html){ $('#modal').innerHTML = html ? `<div class="modal" data-ac
 let renderQ=false;
 function onData(){ if (S.editing) { refreshLive(); return; } if (renderQ) return; renderQ=true; requestAnimationFrame(()=>{renderQ=false; render();}); }
 
-const AREAS = [['admin','Administración'],['auto','Automotriz'],['pmp','PMP AC'],['def','Por definir']];
+const AREAS = [['admin','Administración'],['auto','Automotriz'],['pmp','PMP AC'],['inf','Informes']];
 function loginView(){
   return `<form class="login" id="loginf" novalidate><h1>Ingresar</h1><p class="muted small" style="margin:0">Pneuma Services · acceso del equipo</p>
     <div class="f"><label for="lg-email">Correo</label><input class="in" id="lg-email" type="email" autocomplete="username" inputmode="email" value="${esc(S.loginEmail||'')}"></div>
@@ -641,22 +659,22 @@ function render(){
   if (S.login) { $('#areas').innerHTML=''; $('#who').innerHTML=''; $('#view').innerHTML = loginView(); return; }
   const nAg = S.ready ? agendaPendientes().length : 0;
   const nFin = S.ready && S.isOwner ? finIngs().filter(vencida).length : 0;
-  $('#areas').innerHTML = (S.isOwner || S.demo ? AREAS : AREAS.filter(a=>a[0]==='auto')).map(([k,l])=>`<button data-act="area" data-k="${k}" aria-current="${S.area===k}">${l}${k==='admin'&&(nAg+nFin)?`<span class="dot">${nAg+nFin}</span>`:''}${k==='def'?'<span class="soon">pronto</span>':''}</button>`).join('');
+  $('#areas').innerHTML = (S.isOwner || S.demo ? AREAS : AREAS.filter(a=>a[0]==='auto')).map(([k,l])=>`<button data-act="area" data-k="${k}" aria-current="${S.area===k}">${l}${k==='admin'&&(nAg+nFin)?`<span class="dot">${nAg+nFin}</span>`:''}</button>`).join('');
   $('#who').innerHTML = S.demo ? 'Modo demostración' : S.nombre ? `<span class="nm">${esc(S.nombre)}</span><button type="button" data-act="cuenta">Cuenta</button>` : '';
   const ae = document.activeElement, aid = ae && ae.id, sel = ae && ae.selectionStart;
   const v = $('#view');
-  if (S.area === 'def') { v.innerHTML = soonView(); return; }
   if (!S.ready) { v.innerHTML = `<p class="muted" style="padding-top:24px">Conectando con la base de datos…</p>`; return; }
   const r = S.route;
-  const tabs = S.area==='pmp' ? [['pmp','Programa'],['pmp-contratos','Contratos'],['pmp-inst','Instalaciones']]
+  const tabs = S.area==='inf' ? [...INF_SUBS]
+    : S.area==='pmp' ? [['pmp','Programa'],['pmp-contratos','Contratos'],['pmp-inst','Instalaciones']]
     : S.area==='admin'
     ? [['agenda','Agenda'+(nAg?` <span class="dot">${nAg}</span>`:'')],['cotizaciones','Cotizaciones'],['cot-catalogo','Servicios y precios'],...(S.isOwner?[['fin','Extintor'+(nFin?` <span class="dot">${nFin}</span>`:'')]]:[]),['admin-def','Por definir']]
     : [['inicio','Inicio'],['clientes','Clientes'],['trabajos','Trabajos'],['catalogo','Catálogo de servicios']];
   if (S.canEdit) tabs.push(['ajustes','Ajustes']);
   const cur = tabOf(r.name);
   let html = (S.demo ? `<div class="banner">Modo demostración: la base de datos compartida no está disponible en esta vista. Puedes probar todo, pero nada se guarda.</div>` : '')
-    + `<nav class="subnav" aria-label="${({admin:'Administración',pmp:'PMP AC'})[S.area]||'Automotriz'}">${tabs.map(([k,l])=>`<button data-act="nav" data-k="${k}" aria-current="${cur===k}">${l}</button>`).join('')}</nav>`;
-  const V = Views[r.name] || ({admin:Views.cotizaciones, pmp:Views.pmp})[S.area] || Views.inicio;
+    + `<nav class="subnav" aria-label="${({admin:'Administración',pmp:'PMP AC',inf:'Informes'})[S.area]||'Automotriz'}">${tabs.map(([k,l])=>`<button data-act="nav" data-k="${k}" aria-current="${cur===k}">${l}</button>`).join('')}</nav>`;
+  const V = Views[r.name] || ({admin:Views.cotizaciones, pmp:Views.pmp, inf:Views['inf-inst']})[S.area] || Views.inicio;
   html += V(r);
   v.innerHTML = html;
   if (Views[r.name+'_after']) Views[r.name+'_after'](r);
@@ -664,14 +682,14 @@ function render(){
 }
 function tabOf(n){
   return ({cliente:'clientes','cliente-nuevo':'clientes','cliente-editar':'clientes',vehiculo:'clientes',trabajo:'trabajos','trabajo-nuevo':'trabajos','trabajo-editar':'trabajos',
-    cot:'cotizaciones','cot-nueva':'cotizaciones','cot-editar':'cotizaciones'})[n] || (n.startsWith('fin-')?'fin':n);
+    cot:'cotizaciones','cot-nueva':'cotizaciones','cot-editar':'cotizaciones','inf-inst-nuevo':'inf-inst','inf-inst-editar':'inf-inst','inf-inst-ver':'inf-inst'})[n] || (n.startsWith('fin-')?'fin':n);
 }
 function switchArea(a){
   if (S.area===a) return;
   if (!S.isOwner && !S.demo && a!=='auto') return;
   S.lastRoute[S.area] = S.route; S.area = a;
   const last = S.lastRoute[a];
-  S.route = last && !/nuev|editar|ajustes/.test(last.name) ? last : {name: ({admin:'cotizaciones', pmp:'pmp'})[a] || 'inicio'};
+  S.route = last && !/nuev|editar|ajustes/.test(last.name) ? last : {name: ({admin:'cotizaciones', pmp:'pmp', inf:'inf-inst'})[a] || 'inicio'};
   $('#savebar').innerHTML=''; render(); window.scrollTo(0,0);
 }
 function soonView(){
@@ -1013,7 +1031,8 @@ async function shrink(file, max=1600){
 }
 function cleanupDraft(){
   if (D && D._new && D._new.length && !D._saved) D._new.forEach(id=>Data.dropPhoto(id));
-  D = null; Q = null;
+  if (typeof I!=='undefined' && I && I._new && I._new.length && !I._saved) I._new.forEach(id=>Data.dropPhoto(id));
+  D = null; Q = null; if (typeof I!=='undefined') I = null;
 }
 async function saveTrabajo(){
   const err=$('#terr'); err.textContent='';
@@ -1322,6 +1341,7 @@ const ACT = {
   filtro: b => { S.filtro=b.dataset.k; go('trabajos'); },
   'nuevo-con-pat': b => go('cliente-nuevo',{p:b.dataset.p, then:b.dataset.then, force:true}),
   cancel: () => { const n=S.route.name, id=S.route.id;
+    if (n.startsWith('inf-')) return go(id?'inf-inst-ver':'inf-inst',{id, force:true});
     if (n.startsWith('cot')) return go(id?'cot':'cotizaciones',{id, force:true});
     if (n==='ajustes') return go(S.area==='admin'?'cotizaciones':'inicio',{force:true});
     go(id ? (n.startsWith('trabajo')?'trabajo':'cliente') : (n.startsWith('trabajo')?'trabajos':'clientes'), {id, force:true}); },
@@ -1348,7 +1368,7 @@ const ACT = {
 };
 document.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (!b) return; const f = ACT[b.dataset.act]; if (!f) return; if (b.tagName==='A') return; if (b.dataset.act==='backdrop' && e.target!==b) return; e.preventDefault(); f(b, e); });
 document.addEventListener('keydown', e => { if (e.key==='Escape' && $('#modal').innerHTML) modal(''); });
-window.addEventListener('beforeunload', e => { if (S.editing && D) { e.preventDefault(); } });
+window.addEventListener('beforeunload', e => { if (S.editing && (D || I)) { e.preventDefault(); } });
 
 /* ================= ADMINISTRACIÓN: cotizaciones y agenda ================= */
 const COT_TIPOS = [['mantencion','Mantenimiento HVAC'],['instalacion','Instalación HVAC'],['electrico','Trabajos eléctricos'],['automotriz','Automotriz']];
@@ -2617,6 +2637,440 @@ if ('serviceWorker' in navigator) {
   if (!navigator.serviceWorker.controller) navigator.serviceWorker.addEventListener('controllerchange', () => { if (S.ready) render(); }, { once:true });
   navigator.serviceWorker.register('sw.js').catch(e => console.warn('sw', e));
 }
+/* ================= INFORMES: instalación de equipos de aire acondicionado ================= */
+const INF_TIPOS = ['Split muro','Split ducto','Cassette','Piso cielo','Multi split','Ventana','Portátil','VRF','Otro'];
+const INF_REFRIG = ['R-32','R-410A','R-454B','R-22','Otro'];
+const INF_MARCAS = ['Anwo','Midea','LG','Samsung','Daikin','Gree','Carrier','Fujitsu','Hisense','Kendal','Mitsubishi Electric','Electrolux','York','TCL'];
+const INF_BTU = [9000,12000,18000,24000,30000,36000,48000,60000];
+const INF_CK = [
+  ['estanqueidad','Prueba de estanqueidad con nitrógeno','psi'],
+  ['vacio','Vacío del sistema','micrones'],
+  ['carga','Carga adicional de refrigerante','g'],
+  ['drenaje','Pendiente y prueba de drenaje',''],
+  ['proteccion','Protección eléctrica dedicada',''],
+  ['soportes','Soportes de la unidad exterior',''],
+  ['sellado','Sellado de pasada de muro',''],
+  ['explicacion','Explicación de uso al cliente','']];
+const INF_MED = [
+  ['tRet','T° retorno / ambiente','°C'],
+  ['tFrio','T° inyección modo frío','°C',true],
+  ['tCalor','T° inyección modo calor','°C',true],
+  ['pSuc','Presión de succión','psi'],
+  ['pDes','Presión de descarga','psi'],
+  ['corr','Corriente compresor','A'],
+  ['volt','Voltaje de alimentación','V']];
+const INF_MAX_FOTOS = 9;
+const INF_SUBS = [['inf-inst','Instalaciones'],['inf-mant','Mantenimiento'],['inf-elec','Eléctricos'],['inf-otro','Por definir']];
+const nz = x => x===''||x==null ? null : +x;
+const tstr = v => String(v ?? '').trim();
+function infDT(e){ const r=nz(e.tRet), f=nz(e.tFrio), c=nz(e.tCalor); return {frio: r!=null&&f!=null ? +(r-f).toFixed(1) : null, calor: r!=null&&c!=null ? +(c-r).toFixed(1) : null}; }
+const fmtN = (x,u) => x==null||x==='' ? '—' : String(x).replace('.',',')+(u?' '+u:'');
+const newEquipo = () => ({tipo:'',marca:'',modelo:'',capacidad:'',refrigerante:'R-32',serieUI:'',serieUE:'',ubicUI:'',ubicUE:'',metros:'',ck:{},ckv:{},tRet:'',tFrio:'',tCalor:'',pSuc:'',pDes:'',corr:'',volt:''});
+const infList = () => [...S.informes.values()].sort((a,b)=>(b.numero||0)-(a.numero||0));
+const ckBadge = v => v ? `<span class="ck ck-${esc(v)}">${esc(v.toUpperCase())}</span>` : `<span class="ck">—</span>`;
+const plural = (n,s,p) => n===1 ? s : p;
+
+/* ---------- lista ---------- */
+Views['inf-inst'] = () => {
+  const q = (S.qinf||'').trim().toLowerCase(), all = infList();
+  const list = all.filter(i=>!q || [pad(i.numero), i.cliente?.nombre, i.cliente?.direccion, i.tecnico, ...(i.equipos||[]).map(e=>[e.marca,e.modelo,e.ubicUI].join(' '))].join(' ').toLowerCase().includes(q));
+  return `<div class="head"><div><h1>Informes de instalación</h1><p>Instalación de equipos de aire acondicionado · ${all.length} ${plural(all.length,'informe','informes')}</p></div><button class="btn pri" data-act="nav" data-k="inf-inst-nuevo">+ Nuevo informe</button></div>
+  <div class="stack"><input class="in" id="qinf" placeholder="Buscar por N°, cliente, técnico, marca o ubicación" value="${esc(S.qinf||'')}" autocomplete="off">
+  ${list.length ? `<div class="list">${list.map(infRow).join('')}</div>` : `<div class="empty">${all.length?'Ningún informe coincide con la búsqueda.':'Aún no hay informes de instalación.'}<button class="btn pri" data-act="nav" data-k="inf-inst-nuevo">Crear el primer informe</button></div>`}</div>`;
+};
+Views['inf-inst_after'] = () => { $('#qinf').addEventListener('input', e => { S.qinf = e.target.value; render(); }); };
+function infRow(i){
+  const eqs = i.equipos||[], n = eqs.length, e0 = eqs[0]||{};
+  return `<button class="item" data-act="nav" data-k="inf-inst-ver" data-id="${esc(i.id)}"><span class="num muted small" style="flex:none">N° ${pad(i.numero)}</span>
+    <div class="grow"><div class="t">${esc(i.cliente?.nombre||'Sin cliente')}</div><div class="s">${fdate(i.fecha)} · ${esc(i.tecnico||'')} · ${esc([e0.tipo,e0.marca].filter(Boolean).join(' '))}${n>1?` y ${n-1} más`:''}</div></div>
+    <div class="r"><span class="ttag instalacion">${n} ${plural(n,'equipo','equipos')}</span><span class="small muted">${i.firma?'Firmado':'Sin firma'}</span></div></button>`;
+}
+const infSoon = l => () => `<div class="soonbox"><span class="tag">Próximamente</span><h1>Informes de ${esc(l)}</h1><p class="muted">Este tipo de informe se agregará en una próxima etapa. Por ahora puedes crear informes de <b>Instalaciones</b>.</p><div><button class="btn pri" data-act="nav" data-k="inf-inst">Ir a Instalaciones</button></div></div>`;
+Views['inf-mant'] = infSoon('mantenimiento');
+Views['inf-elec'] = infSoon('trabajos eléctricos');
+Views['inf-otro'] = () => `<div class="soonbox"><span class="tag">Próximamente</span><h1>Por definir</h1><p class="muted">Este apartado de Informes queda reservado para una próxima etapa.</p></div>`;
+
+/* ---------- detalle ---------- */
+Views['inf-inst-ver'] = r => {
+  const i = S.informes.get(r.id); if (!i) return `<div class="empty" style="margin-top:20px">Este informe ya no existe.</div>`;
+  const cl = i.cliente||{}, eqs = i.equipos||[], n = eqs.length;
+  return `<div class="head"><div class="stack" style="gap:8px"><p class="small" style="margin:0"><button class="btn ghost sm" data-act="nav" data-k="inf-inst">← Informes de instalación</button></p>
+     <h1>Informe de instalación N° ${pad(i.numero)}</h1><p class="muted" style="margin:0">${fdate(i.fecha)} · ${esc(cl.nombre)} · ${n} ${plural(n,'equipo instalado','equipos instalados')}</p></div>
+    <div class="row"><button class="btn" data-act="nav" data-k="inf-inst-editar" data-id="${esc(i.id)}">Editar</button></div></div>
+  <div class="panel" style="margin-bottom:14px;background:var(--surface-2)"><div class="row"><div class="grow"><h3 style="margin-bottom:4px">Documento</h3><p class="small muted" style="margin:0">PDF con datos del cliente, una planilla por equipo, registro fotográfico y firma de recepción.</p></div>
+    <button class="btn pri" data-act="inf-pdf" data-id="${esc(i.id)}">Informe PDF</button>${waLink(cl.telefono, `Estimado/a ${cl.nombre||''}, le escribe ${S.cfg.razon}. Le enviamos el informe de instalación N° ${pad(i.numero)} de ${n} ${plural(n,'equipo','equipos')} de aire acondicionado.`, 'WhatsApp')}</div><p class="small" id="pdfmsg" style="margin:8px 0 0"></p></div>
+  <div class="stack">
+    <div class="panel"><h3>Cliente e instalación</h3><div class="kv"><div><span>Cliente</span><b>${esc(cl.nombre)||'—'}</b></div><div><span>RUT</span><b>${esc(cl.rut)||'—'}</b></div><div><span>Teléfono</span><b>${esc(cl.telefono)||'—'}</b></div><div><span>Correo</span><b>${esc(cl.correo)||'—'}</b></div><div><span>Dirección</span><b>${esc(cl.direccion)||'—'}</b></div><div><span>Técnico</span><b>${esc(i.tecnico)||'—'}</b></div><div><span>Equipos instalados</span><b>${n}</b></div></div></div>
+    ${eqs.map((e,k)=>{ const dt = infDT(e); return `<div class="panel eqp"><h3>Equipo ${k+1} de ${n}</h3>
+      <div class="kv">${[['Tipo',e.tipo],['Marca',e.marca],['Modelo',e.modelo],['Capacidad',e.capacidad?Number(e.capacidad).toLocaleString('es-CL')+' BTU':''],['Refrigerante',e.refrigerante],['Ubicación unidad interior',e.ubicUI],['Ubicación unidad exterior',e.ubicUE],['N° serie UI',e.serieUI],['N° serie UE',e.serieUE],['Largo de cañería',e.metros!==''&&e.metros!=null?fmtN(e.metros,'m'):'']].map(([l,v])=>`<div><span>${l}</span><b>${esc(v)||'—'}</b></div>`).join('')}</div>
+      <div class="kv" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">${INF_MED.map(([key,l,u])=>`<div><span>${l}</span><b>${fmtN(e[key],u)}</b></div>`).join('')}<div><span>ΔT frío</span><b>${fmtN(dt.frio,'°C')}</b></div><div><span>ΔT calor</span><b>${fmtN(dt.calor,'°C')}</b></div></div>
+      <div class="small" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">${INF_CK.map(([key,l,u])=>`<div class="row" style="padding:3px 0;gap:8px;flex-wrap:nowrap">${ckBadge(e.ck?.[key])}<span class="grow">${l}</span>${e.ckv?.[key]!=null&&e.ckv[key]!==''?`<span class="muted">${fmtN(e.ckv[key],u)}</span>`:''}</div>`).join('')}</div></div>`; }).join('')}
+    <div class="panel"><h3>Observaciones generales</h3><p class="txt" style="margin:0">${esc(i.observaciones)||'—'}</p></div>
+    <div class="panel"><h3>Fotografías</h3>${(i.fotos||[]).length?`<div class="photos">${i.fotos.map((f,k)=>`<figure class="ph" style="margin:0"><img src="${esc(Data.photoSrc(f.id))}" alt="${esc(f.nota||'Foto '+(k+1))}" loading="lazy"><figcaption class="small" style="padding:6px 9px">${k+1}. ${esc(f.nota||'Sin descripción')}</figcaption></figure>`).join('')}</div>`:'<p class="muted">Sin fotografías.</p>'}</div>
+    <div class="panel"><h3>Recepción conforme</h3>${i.firma?`<img src="${esc(Data.photoSrc(i.firma))}" alt="Firma del cliente" style="max-width:320px;width:100%;border:1px solid var(--line);border-radius:8px;background:#fff">`:'<p class="muted" style="margin:0">Sin firma registrada.</p>'}<p class="small" style="margin:6px 0 0">${esc(i.recibe?.nombre||cl.nombre||'')}${i.recibe?.rut?' · RUT '+esc(i.recibe.rut):''}</p></div>
+    ${S.canEdit?`<div class="row" style="justify-content:flex-end"><button class="btn red sm" data-act="inf-del" data-id="${esc(i.id)}">Eliminar informe</button></div>`:''}
+  </div>`;
+};
+
+/* ---------- formulario ---------- */
+let I = null;
+Views['inf-inst-nuevo'] = r => infForm(r);
+Views['inf-inst-editar'] = r => infForm(r);
+function infForm(r){
+  S.editing = true;
+  if (!I || I._route !== r) {
+    const x = r.id ? S.informes.get(r.id) : null;
+    I = x ? JSON.parse(JSON.stringify(strip(x))) : {fecha:today(), tecnico:ls.get('tecnico',''), cliente:{nombre:'',rut:'',telefono:'',correo:'',direccion:''}, equipos:[newEquipo()], fotos:[], observaciones:'', recibe:{nombre:'',rut:''}, firma:''};
+    if (x) I.id = x.id;
+    I.equipos = (I.equipos||[]).map(e=>({...newEquipo(), ...e, ck:{...(e.ck||{})}, ckv:{...(e.ckv||{})}}));
+    I.recibe = I.recibe || {nombre:'',rut:''};
+    I._route = r; I._new = []; I._removed = []; I._uploading = 0; I._sig = null; I._sigDirty = false;
+  }
+  const isNew = !r.id, cl = I.cliente;
+  const fc = (k,l,cls,a='') => `<div class="f ${cls}"><label for="ic-${k}">${l}</label><input class="in" id="ic-${k}" data-cl="${k}" value="${esc(cl[k])}" ${a}></div>`;
+  return `<div class="head"><div><h1>${isNew?'Nuevo informe de instalación':'Editar informe N° '+pad(I.numero)}</h1><p>${isNew?'Instalación de equipos de aire acondicionado. El número correlativo se asigna al guardar.':''}</p></div></div>
+  <div class="form" id="iform">
+    <div class="panel"><h3>Datos del informe</h3><div class="grid" style="align-items:start">
+      <div class="f c4"><label for="if-fecha">Fecha del informe</label><input class="in" id="if-fecha" type="date" data-iq="fecha" value="${esc(I.fecha)}"><span class="hint">${isNew?'Se completa con la fecha de hoy. Cámbiala si la instalación fue otro día.':'Puedes corregirla si es necesario.'}</span></div>
+      <div class="f c4"><label for="if-tecnico">Técnico <span class="req">*</span></label><input class="in" id="if-tecnico" data-iq="tecnico" value="${esc(I.tecnico)}" autocomplete="off"></div>
+      <div class="f c4"><label>Cantidad de equipos instalados</label><div class="row" style="gap:8px;flex-wrap:nowrap"><span class="cantbox num" id="if-cant">${I.equipos.length}</span><button class="btn sm" data-act="inf-eq-add">+ Agregar equipo</button></div><span class="hint">Cada equipo tiene su propia planilla.</span></div>
+    </div></div>
+    <div class="panel"><h3>Cliente</h3><div class="grid">
+      ${fc('nombre','Nombre o razón social <span class="req">*</span>','c6','list="inf-clis" autocomplete="off"')}${fc('rut','RUT <span class="muted">(opcional)</span>','c3')}${fc('telefono','Teléfono','c3','type="tel"')}
+      ${fc('correo','Correo','c6','type="email"')}${fc('direccion','Dirección de la instalación','c6')}
+    </div><datalist id="inf-clis">${[...new Set(infList().map(i=>i.cliente?.nombre).filter(Boolean))].map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+    <datalist id="inf-marcas">${INF_MARCAS.map(m=>`<option value="${m}">`).join('')}</datalist><datalist id="inf-btu">${INF_BTU.map(b=>`<option value="${b}">`).join('')}</datalist></div>
+    <div id="if-eqs" class="stack">${I.equipos.map(eqHTML).join('')}</div>
+    <div class="panel"><div class="row" style="margin-bottom:12px"><h3 class="grow" style="margin:0">Fotografías <span class="muted" id="if-fcount" style="letter-spacing:0;text-transform:none;font-family:var(--f-body);font-size:13px"></span></h3><button class="btn sm pri" data-act="inf-foto" id="if-fbtn">+ Cargar fotos</button></div>
+      <div id="if-fotos"></div><p class="hint" style="margin:8px 0 0">Se cargan desde la galería o los archivos del dispositivo y se reducen automáticamente antes de subirlas. Máximo ${INF_MAX_FOTOS} por informe; aparecen en el PDF en el orden en que se cargan.</p></div>
+    <div class="panel"><div class="f"><label for="if-obs">Observaciones generales <span class="req">*</span></label><textarea class="in" id="if-obs" data-iq="observaciones" placeholder="Estado final de la instalación, condiciones de funcionamiento, recomendaciones al cliente…">${esc(I.observaciones)}</textarea></div></div>
+    <div class="panel"><h3>Recepción conforme del cliente</h3><div class="grid">
+      <div class="f c6"><label for="irc-nombre">Nombre de quien recibe</label><input class="in" id="irc-nombre" data-rc="nombre" value="${esc(I.recibe.nombre)}" placeholder="Si queda en blanco se usa el nombre del cliente"></div>
+      <div class="f c6"><label for="irc-rut">RUT de quien recibe</label><input class="in" id="irc-rut" data-rc="rut" value="${esc(I.recibe.rut)}"></div>
+      <div class="f"><label>Firma del cliente</label><div class="sigbox" id="if-sigbox"><canvas id="if-sig" aria-label="Recuadro de firma"></canvas><span class="sighint" id="if-sighint">Firme aquí con el dedo o el mouse</span></div>
+        <div class="row"><button class="btn ghost sm" data-act="inf-sig-clear">Borrar firma</button><span class="hint">Opcional. Sin firma, el PDF deja la línea en blanco para firmar a mano.</span></div></div>
+    </div></div>
+    <p class="err" id="ierr"></p>
+  </div>`;
+}
+function eqHTML(e,k){
+  const n = I.equipos.length, num = 'type="number" inputmode="decimal" step="any"';
+  const f = (key,l,cls,a='',unit='') => `<div class="f ${cls}"><label for="ie${k}-${key}">${l}</label>${unit?'<div class="unit">':''}<input class="in" id="ie${k}-${key}" data-i="${k}" data-e="${key}" value="${esc(e[key])}" ${a}>${unit?`<span>${unit}</span></div>`:''}</div>`;
+  const sel = (key,l,opts,cls,req) => `<div class="f ${cls}"><label for="ie${k}-${key}">${l}${req?' <span class="req">*</span>':''}</label><select class="in" id="ie${k}-${key}" data-i="${k}" data-e="${key}">${req?'<option value="">Seleccionar…</option>':''}${opts.map(o=>`<option ${e[key]===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
+  const dt = infDT(e);
+  return `<div class="panel eqp" data-eq="${k}">
+    <div class="row" style="margin-bottom:12px"><h2 class="grow" style="font-size:20px">Equipo ${k+1} <span class="muted">de ${n}</span></h2>${k>0?`<button class="btn ghost sm" data-act="inf-eq-copy" data-i="${k}">Copiar tipo, marca y modelo del equipo 1</button>`:''}${n>1?`<button class="btn red sm" data-act="inf-eq-del" data-i="${k}">Quitar equipo</button>`:''}</div>
+    <h3>Datos del equipo</h3><div class="grid">
+      ${sel('tipo','Tipo de equipo',INF_TIPOS,'c4',true)}${f('marca','Marca <span class="req">*</span>','c4','autocomplete="off" list="inf-marcas"')}${f('modelo','Modelo <span class="req">*</span>','c4','autocomplete="off"')}
+      ${f('capacidad','Capacidad','c3','type="number" inputmode="numeric" list="inf-btu"','BTU')}${sel('refrigerante','Refrigerante',INF_REFRIG,'c3')}${f('serieUI','N° serie unidad interior','c3','autocomplete="off"')}${f('serieUE','N° serie unidad exterior','c3','autocomplete="off"')}
+      ${f('ubicUI','Ubicación unidad interior <span class="req">*</span>','c4','placeholder="Ej: Dormitorio principal"')}${f('ubicUE','Ubicación unidad exterior','c4','placeholder="Ej: Muro patio trasero"')}${f('metros','Largo de cañería','c4',num,'m')}
+    </div>
+    <div class="row" style="margin:20px 0 8px"><h3 class="grow" style="margin:0">Verificación de instalación</h3><button class="btn ghost sm" data-act="inf-ck-all" data-i="${k}">Marcar todo OK</button></div>
+    <div class="ckl">${INF_CK.map(([key,l,u])=>`<div class="ckr"><span class="ckl-l">${l}</span>${u?`<div class="unit ckv"><input class="in" ${num} data-i="${k}" data-ckv="${key}" value="${esc(e.ckv?.[key])}" aria-label="${l} (${u})" placeholder="Valor"><span>${u}</span></div>`:'<span class="ckv"></span>'}<div class="seg ckseg" role="group" aria-label="${l}">${['ok','nc','na'].map(s=>`<button data-act="inf-ck" data-i="${k}" data-key="${key}" data-s="${s}" aria-pressed="${e.ck?.[key]===s}">${s.toUpperCase()}</button>`).join('')}</div></div>`).join('')}</div>
+    <p class="hint" style="margin:6px 0 0">OK: cumple · NC: no cumple · NA: no aplica. Los valores son opcionales.</p>
+    <h3 style="margin:20px 0 8px">Mediciones</h3><div class="grid">
+      ${INF_MED.map(([key,l,u,req])=>f(key, l+(req?' <span class="req">*</span>':''), 'c3', num, u)).join('')}
+      <div class="f c3"><label>ΔT frío <span class="muted">(auto)</span></label><div class="in dtbox" id="dt${k}-frio">${fmtN(dt.frio,'°C')}</div></div>
+      <div class="f c3"><label>ΔT calor <span class="muted">(auto)</span></label><div class="in dtbox" id="dt${k}-calor">${fmtN(dt.calor,'°C')}</div></div>
+    </div><p class="hint" style="margin:6px 0 0">Obligatorias: T° de inyección en frío y en calor. ΔT frío = T° retorno − T° inyección frío; ΔT calor = T° inyección calor − T° retorno (se calculan al ingresar la T° de retorno).</p>
+  </div>`;
+}
+Views['inf-inst-nuevo_after'] = Views['inf-inst-editar_after'] = () => {
+  $('#savebar').innerHTML = `<div class="savebar"><div class="wrap"><span class="tot" id="sb-tot"></span><button class="btn" data-act="cancel">Cancelar</button><button class="btn pri" data-act="save-inf">Guardar informe</button></div></div>`;
+  infTot(); drawInfFotos(); initSig();
+  const f = $('#iform'); f.addEventListener('input', onInfInput); f.addEventListener('change', onInfInput);
+};
+function infTot(){ const sb=$('#sb-tot'); if (sb) sb.innerHTML = `Equipos instalados<b>${I.equipos.length}</b>`; const c=$('#if-cant'); if (c) c.textContent = I.equipos.length; }
+function drawEqs(){ $('#if-eqs').innerHTML = I.equipos.map(eqHTML).join(''); infTot(); }
+function onInfInput(e){
+  const el = e.target;
+  if (el.dataset.iq) { I[el.dataset.iq] = el.value; if (el.dataset.iq==='tecnico') ls.set('tecnico', el.value); }
+  else if (el.dataset.cl) {
+    I.cliente[el.dataset.cl] = el.value;
+    if (el.dataset.cl==='nombre' && e.type==='change') {
+      const m = infList().find(x=>tstr(x.cliente?.nombre).toLowerCase()===tstr(el.value).toLowerCase());
+      if (m) ['rut','telefono','correo','direccion'].forEach(k=>{ if (!I.cliente[k] && m.cliente[k]) { I.cliente[k]=m.cliente[k]; const i=$('#ic-'+k); if (i) i.value=m.cliente[k]; } });
+    }
+  }
+  else if (el.dataset.rc) I.recibe[el.dataset.rc] = el.value;
+  else if (el.dataset.ckv) { const eq = I.equipos[+el.dataset.i]; eq.ckv[el.dataset.ckv] = el.value; }
+  else if (el.dataset.e) {
+    const k = +el.dataset.i, eq = I.equipos[k]; eq[el.dataset.e] = el.value;
+    if (['tRet','tFrio','tCalor'].includes(el.dataset.e)) { const dt = infDT(eq); $('#dt'+k+'-frio').textContent = fmtN(dt.frio,'°C'); $('#dt'+k+'-calor').textContent = fmtN(dt.calor,'°C'); }
+  }
+  else if (el.dataset.fn != null) I.fotos[+el.dataset.fn].nota = el.value;
+}
+function drawInfFotos(){
+  const el = $('#if-fotos'); if (!el) return;
+  const ph = I.fotos.map((f,k)=>`<div class="ph"><img src="${esc(Data.photoSrc(f.id))}" alt=""><div class="bar"><span>Foto ${k+1}</span><button data-act="inf-foto-del" data-i="${k}">Quitar</button></div><input class="in" data-fn="${k}" value="${esc(f.nota)}" placeholder="Descripción (ej: Montaje unidad exterior)" aria-label="Descripción de la foto ${k+1}"></div>`).join('');
+  const ld = Array.from({length:I._uploading},()=>`<div class="ph loading">Subiendo…</div>`).join('');
+  el.innerHTML = (ph||ld) ? `<div class="photos">${ph}${ld}</div>` : `<div class="empty" style="padding:18px">Aún no hay fotos cargadas.</div>`;
+  const c = $('#if-fcount'); if (c) c.textContent = `· ${I.fotos.length} de ${INF_MAX_FOTOS}`;
+  const b = $('#if-fbtn'); if (b) b.disabled = I.fotos.length + I._uploading >= INF_MAX_FOTOS;
+}
+async function onInfFiles(files){
+  let list = [...files].filter(f=>/^image\//.test(f.type));
+  const room = INF_MAX_FOTOS - I.fotos.length - I._uploading;
+  if (list.length > room) { toast(room>0 ? `Solo caben ${room} ${plural(room,'foto','fotos')} más (máximo ${INF_MAX_FOTOS} por informe).` : `Ya hay ${INF_MAX_FOTOS} fotos, el máximo por informe.`); list = list.slice(0, Math.max(0,room)); }
+  if (!list.length) return;
+  const draft = I; draft._uploading += list.length; drawInfFotos();
+  for (const f of list) {
+    try { const blob = await shrink(f); const id = await Data.upload(blob); draft.fotos.push({id, nota:''}); draft._new.push(id); }
+    catch(e){ toast(e.message || 'No se pudo subir la foto.'); }
+    finally { draft._uploading--; if (I===draft) drawInfFotos(); }
+  }
+}
+/* signature pad */
+function initSig(){
+  const cv = $('#if-sig'); if (!cv) return;
+  const box = cv.parentElement, ratio = Math.max(1, window.devicePixelRatio||1);
+  const w = box.clientWidth, h = 180;
+  cv.width = Math.round(w*ratio); cv.height = Math.round(h*ratio); cv.style.width = w+'px'; cv.style.height = h+'px';
+  const x = cv.getContext('2d'); x.scale(ratio,ratio);
+  x.fillStyle = '#fff'; x.fillRect(0,0,w,h);
+  x.lineWidth = 2.3; x.lineCap = 'round'; x.lineJoin = 'round'; x.strokeStyle = '#0E1B2E';
+  const hint = $('#if-sighint');
+  const src = I._sig || (!I._sigDirty && I.firma ? Data.photoSrc(I.firma) : '');
+  if (src) { const im = new Image(); im.onload = () => x.drawImage(im,0,0,w,h); im.src = src; hint.hidden = true; }
+  let drawing = false, last = null;
+  const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; };
+  cv.addEventListener('pointerdown', e => { drawing = true; last = pos(e); try{ cv.setPointerCapture(e.pointerId); }catch{} hint.hidden = true; x.beginPath(); x.arc(last[0],last[1],1.15,0,Math.PI*2); x.fillStyle='#0E1B2E'; x.fill(); e.preventDefault(); });
+  cv.addEventListener('pointermove', e => { if (!drawing) return; const p = pos(e); x.beginPath(); x.moveTo(last[0],last[1]); x.lineTo(p[0],p[1]); x.stroke(); last = p; e.preventDefault(); });
+  const end = () => { if (!drawing) return; drawing = false; I._sigDirty = true; I._sig = cv.toDataURL('image/jpeg', 0.88); };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end); cv.addEventListener('pointerleave', end);
+}
+async function saveInf(){
+  const err = $('#ierr'); err.textContent = '';
+  if (I._uploading) { err.textContent = 'Espera a que terminen de subir las fotos.'; return; }
+  const errs = [];
+  if (!tstr(I.tecnico)) errs.push('nombre del técnico');
+  if (!tstr(I.cliente.nombre)) errs.push('nombre del cliente');
+  I.equipos.forEach((e,k)=>{ const miss = [!e.tipo&&'tipo', !tstr(e.marca)&&'marca', !tstr(e.modelo)&&'modelo', !tstr(e.ubicUI)&&'ubicación', nz(e.tFrio)==null&&'T° frío', nz(e.tCalor)==null&&'T° calor'].filter(Boolean); if (miss.length) errs.push(`equipo ${k+1} (${miss.join(', ')})`); });
+  if (!tstr(I.observaciones)) errs.push('observaciones generales');
+  if (errs.length) { err.textContent = 'Falta completar: ' + errs.join(' · ') + '.'; return; }
+  const num = x => nz(x)==null ? '' : +x;
+  const data = {fecha:I.fecha||today(), tecnico:tstr(I.tecnico),
+    cliente:Object.fromEntries(['nombre','rut','telefono','correo','direccion'].map(k=>[k, tstr(I.cliente[k])])),
+    equipos:I.equipos.map(e=>({tipo:e.tipo, marca:tstr(e.marca), modelo:tstr(e.modelo), capacidad:num(e.capacidad), refrigerante:e.refrigerante||'', serieUI:tstr(e.serieUI), serieUE:tstr(e.serieUE),
+      ubicUI:tstr(e.ubicUI), ubicUE:tstr(e.ubicUE), metros:num(e.metros), ck:Object.fromEntries(Object.entries(e.ck||{}).filter(([,v])=>v)),
+      ckv:Object.fromEntries(Object.entries(e.ckv||{}).filter(([,v])=>nz(v)!=null).map(([k,v])=>[k,+v])),
+      ...Object.fromEntries(INF_MED.map(([k])=>[k, num(e[k])]))})),
+    fotos:I.fotos.map(f=>({id:f.id, nota:tstr(f.nota)})), observaciones:tstr(I.observaciones),
+    recibe:{nombre:tstr(I.recibe.nombre), rut:tstr(I.recibe.rut)}, firma:I.firma||'',
+    creado:I.creado||today(), creadoPor:I.creadoPor||S.uid||''};
+  try {
+    busy(true);
+    let oldFirma = null;
+    if (I._sigDirty) { oldFirma = I.firma || null; data.firma = I._sig ? await Data.upload(await (await fetch(I._sig)).blob()) : ''; }
+    const isNew = !I.id, id = I.id || uid('n');
+    data.numero = I.numero || await Data.nextNumero('informes');
+    await Data.set('informes', id, data);
+    I._saved = true; I._removed.forEach(f=>Data.dropPhoto(f)); if (oldFirma && oldFirma !== data.firma) Data.dropPhoto(oldFirma);
+    toast(isNew ? 'Informe N° '+pad(data.numero)+' guardado' : 'Cambios guardados');
+    go('inf-inst-ver', {id, force:true});
+  } catch(e){ err.textContent = writeErr(e); } finally { busy(false); }
+}
+
+/* ---------- PDF ---------- */
+async function buildInfPDF(i){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({unit:'mm', format:'a4'});
+  const _t = doc.text.bind(doc), _s = doc.splitTextToSize.bind(doc);
+  doc.text = (t,...a) => _t(Array.isArray(t)?t.map(pdfSafe):pdfSafe(t), ...a);
+  doc.splitTextToSize = (t,...a) => _s(pdfSafe(t), ...a);
+  const cfg = S.cfg, cl = i.cliente||{}, eqs = i.equipos||[], n = eqs.length;
+  const NAVY=[11,42,91], RED=[200,25,31], INK=[20,28,40], MUT=[95,108,128], LINE=[205,214,226], SOFT=[241,245,250], OKC=[30,127,79], WHITE=[255,255,255];
+  const M=14, W=182, BOTTOM=280;
+  const lm = await getLogoMeta();
+  const docName = 'Informe de instalación N° '+pad(i.numero);
+  const msg = $('#pdfmsg');
+  let y;
+  const font = (st='normal', sz=9.5, col=INK) => { doc.setFont('helvetica', st); doc.setFontSize(sz); doc.setTextColor(...col); };
+  const newPage = () => {
+    doc.addPage();
+    const lw=34; doc.addImage(LOGO,'PNG',M,10,lw,lw*lm.h/lm.w);
+    font('bold',9,NAVY); doc.text(docName, M+W, 15, {align:'right'});
+    font('normal',8,MUT); doc.text(String(cl.nombre||''), M+W, 19.5, {align:'right'});
+    doc.setDrawColor(...RED); doc.setLineWidth(0.5); doc.line(M,24,M+W,24); y = 31;
+  };
+  const ensure = h => { if (y+h > BOTTOM) newPage(); };
+  const section = (label, need=14) => { ensure(need); doc.setFillColor(...RED); doc.rect(M, y-3.4, 1.3, 4.4, 'F'); font('bold',10,NAVY); doc.text(label.toUpperCase(), M+3.5, y); y += 5.5; };
+  const band = (title, right) => { doc.setFillColor(...NAVY); doc.rect(M,y,W,7,'F'); font('bold',8.4,WHITE); doc.text(title, M+3, y+4.8); if (right) doc.text(right, M+W-3, y+4.8, {align:'right'}); y += 7; };
+  const kvTable = (title, rows, lw=34) => {
+    const rh = 7; ensure(7 + rows.length*rh + 4); band(title);
+    rows.forEach(r=>{ const cw = W/r.length;
+      r.forEach(([l,v],j)=>{ const x = M+j*cw;
+        doc.setFillColor(...SOFT); doc.rect(x,y,lw,rh,'F'); doc.setDrawColor(...LINE); doc.setLineWidth(0.25); doc.rect(x,y,cw,rh,'S'); doc.line(x+lw,y,x+lw,y+rh);
+        font('bold',7.2,MUT); doc.text(String(l).toUpperCase(), x+2, y+4.6);
+        font('normal',8.8,INK); doc.text(doc.splitTextToSize(String(v===''||v==null?'—':v), cw-lw-4)[0]||'—', x+lw+2.2, y+4.7); });
+      y += rh; });
+    y += 6;
+  };
+
+  /* ---- page 1: header ---- */
+  const lw = 40, lh = lw*lm.h/lm.w; doc.addImage(LOGO,'PNG',M,9,lw,lh);
+  const bw = 50, bx = M+W-bw;
+  doc.setFillColor(...NAVY); doc.roundedRect(bx, 9, bw, 15, 1.4, 1.4, 'F');
+  font('bold',7.2,WHITE); doc.text('INFORME DE INSTALACIÓN', bx+bw/2, 13.2, {align:'center'});
+  font('bold',11,WHITE); doc.text('N° '+pad(i.numero), bx+bw/2, 18.4, {align:'center'});
+  font('normal',6.6,[200,215,240]); doc.text('Fecha: '+fdate(i.fecha), bx+bw/2, 22, {align:'center'});
+  y = Math.max(9+lh, 24) + 6;
+  font('bold',12.5,NAVY); doc.text('INSTALACIÓN DE EQUIPOS DE AIRE ACONDICIONADO', M+W/2, y, {align:'center'}); y += 5;
+  font('normal',7.2,MUT);
+  doc.text([cfg.razon, 'RUT '+cfg.rut, cfg.direccion].filter(Boolean).join('   ·   '), M+W/2, y, {align:'center'}); y += 3.6;
+  doc.text([cfg.telefono, cfg.correo].filter(Boolean).join('   ·   '), M+W/2, y, {align:'center'}); y += 3;
+  doc.setDrawColor(...RED); doc.setLineWidth(0.6); doc.line(M, y, M+W, y); y += 7;
+
+  kvTable('DATOS DEL CLIENTE', [[['Nombre', cl.nombre]], [['RUT', cl.rut],['Teléfono', cl.telefono]], [['Correo', cl.correo]], [['Dirección', cl.direccion]]], 28);
+  kvTable('DATOS DE LA INSTALACIÓN', [[['Fecha', fdate(i.fecha)],['Técnico', i.tecnico]], [['Equipos instalados', n],['Empresa', cfg.razon]]], 34);
+
+  /* summary table */
+  section('Resumen de equipos instalados', 24);
+  const sc = [{l:'N°',w:10,a:'center'},{l:'TIPO',w:30},{l:'MARCA Y MODELO',w:62},{l:'CAPACIDAD',w:26,a:'center'},{l:'UBICACIÓN',w:54}];
+  const shead = () => { doc.setFillColor(...NAVY); doc.rect(M,y,W,7,'F'); font('bold',7.4,WHITE); let x=M; sc.forEach(c=>{ doc.text(c.l, c.a==='center'?x+c.w/2:x+2, y+4.7, {align:c.a||'left'}); x+=c.w; }); y+=7; };
+  shead();
+  eqs.forEach((e,k)=>{
+    const rh = 7; if (y+rh > BOTTOM) { newPage(); shead(); }
+    if (k%2) { doc.setFillColor(...SOFT); doc.rect(M,y,W,rh,'F'); }
+    const vals = [String(k+1), e.tipo, [e.marca,e.modelo].filter(Boolean).join(' '), e.capacidad?Number(e.capacidad).toLocaleString('es-CL')+' BTU':'—', e.ubicUI];
+    let x = M; font('normal',8.6,INK);
+    sc.forEach((c,j)=>{ const t = doc.splitTextToSize(String(vals[j]||'—'), c.w-4)[0]||'—'; doc.text(t, c.a==='center'?x+c.w/2:x+2, y+4.7, {align:c.a||'left'}); x+=c.w; });
+    y += rh; doc.setDrawColor(...LINE); doc.setLineWidth(0.2); doc.line(M,y,M+W,y);
+  });
+  y += 6;
+
+  /* ---- one sheet per equipment ---- */
+  eqs.forEach((e,k)=>{
+    newPage();
+    doc.setFillColor(...RED); doc.rect(M,y,W,9,'F'); font('bold',10.5,WHITE);
+    doc.text(`PLANILLA EQUIPO ${k+1} DE ${n}`, M+3, y+6.1); font('normal',8.6,WHITE); doc.text([e.tipo, e.marca, e.modelo].filter(Boolean).join(' · '), M+W-3, y+6.1, {align:'right'});
+    y += 15;
+    kvTable('DATOS DEL EQUIPO', [
+      [['Tipo', e.tipo],['Marca', e.marca]],
+      [['Modelo', e.modelo],['Capacidad', e.capacidad?Number(e.capacidad).toLocaleString('es-CL')+' BTU':'']],
+      [['Refrigerante', e.refrigerante],['Largo cañería', e.metros!==''&&e.metros!=null?fmtN(e.metros,'m'):'']],
+      [['N° serie UI', e.serieUI],['N° serie UE', e.serieUE]],
+      [['Ubicación UI', e.ubicUI],['Ubicación UE', e.ubicUE]]], 30);
+    /* checklist */
+    const cc = [{l:'VERIFICACIÓN DE INSTALACIÓN',w:104},{l:'OK',w:14},{l:'NC',w:14},{l:'NA',w:14},{l:'VALOR',w:36}];
+    const rh = 6.6; ensure(7+INF_CK.length*rh+4);
+    doc.setFillColor(...NAVY); doc.rect(M,y,W,7,'F'); font('bold',7.8,WHITE); let x=M; cc.forEach((c,j)=>{ doc.text(c.l, j===0?x+3:x+c.w/2, y+4.8, {align:j===0?'left':'center'}); x+=c.w; }); y+=7;
+    INF_CK.forEach(([key,l,u],r)=>{
+      const st = e.ck?.[key]||'';
+      if (r%2) { doc.setFillColor(...SOFT); doc.rect(M,y,W,rh,'F'); }
+      doc.setDrawColor(...LINE); doc.setLineWidth(0.25); doc.rect(M,y,W,rh,'S'); let xx=M; cc.slice(0,-1).forEach(c=>{ xx+=c.w; doc.line(xx,y,xx,y+rh); });
+      font('normal',8.6,INK); doc.text(l, M+3, y+4.4);
+      ['ok','nc','na'].forEach((s,j)=>{ if (st===s) { font('bold',9.4, s==='ok'?OKC:s==='nc'?RED:MUT); doc.text('X', M+cc[0].w+j*14+7, y+4.5, {align:'center'}); } });
+      const v = e.ckv?.[key]; font('normal',8.6,INK); doc.text(v!=null&&v!==''?fmtN(v,u):'—', M+W-cc[4].w/2, y+4.4, {align:'center'});
+      y += rh;
+    });
+    font('italic',7,MUT); doc.text('OK: cumple · NC: no cumple · NA: no aplica', M, y+3.6); y += 9;
+    /* measurements */
+    const dt = infDT(e);
+    const med = [...INF_MED.map(([key,l,u])=>[l, fmtN(e[key],u)]), ['Diferencial de temperatura modo frío (retorno - inyección)', fmtN(dt.frio,'°C')], ['Diferencial de temperatura modo calor (inyección - retorno)', fmtN(dt.calor,'°C')]];
+    ensure(7+med.length*rh+4);
+    doc.setFillColor(...NAVY); doc.rect(M,y,W,7,'F'); font('bold',7.8,WHITE); doc.text('MEDICIÓN DE PARÁMETROS', M+3, y+4.8); doc.text('VALOR', M+W-25, y+4.8, {align:'center'}); y+=7;
+    med.forEach(([l,v],r)=>{
+      const dtRow = r >= INF_MED.length;
+      if (dtRow) { doc.setFillColor(232,240,252); doc.rect(M,y,W,rh,'F'); } else if (r%2) { doc.setFillColor(...SOFT); doc.rect(M,y,W,rh,'F'); }
+      doc.setDrawColor(...LINE); doc.setLineWidth(0.25); doc.rect(M,y,W,rh,'S'); doc.line(M+W-50,y,M+W-50,y+rh);
+      font(dtRow?'bold':'normal',8.6,INK); doc.text(l, M+3, y+4.4);
+      font('bold',9,dtRow?NAVY:INK); doc.text(v, M+W-25, y+4.4, {align:'center'});
+      y += rh;
+    });
+    y += 4;
+  });
+
+  /* ---- observations, photos, signatures ---- */
+  newPage();
+  section('Observaciones generales');
+  font('normal',9.4,INK);
+  doc.splitTextToSize(String(i.observaciones||'—'), W-6).forEach(l=>{ ensure(4.2); doc.text(l, M+3.5, y); y += 4.2; });
+  y += 6;
+  const fotos = i.fotos||[];
+  if (fotos.length) {
+    const gap=5, cw=(W-2*gap)/3, ch=46, capH=8;
+    section('Registro fotográfico', 14+ch+capH);
+    for (let r=0; r<fotos.length; r+=3) {
+      ensure(ch+capH+4);
+      for (let c=0; c<3 && r+c<fotos.length; c++) {
+        const f = fotos[r+c], x = M + c*(cw+gap);
+        if (msg) msg.textContent = 'Preparando fotos '+(r+c+1)+' de '+fotos.length+'…';
+        doc.setFillColor(...SOFT); doc.setDrawColor(...LINE); doc.setLineWidth(0.3); doc.rect(x,y,cw,ch,'FD');
+        try { const im = await imgData(Data.photoSrc(f.id)); const s = Math.min((cw-2)/im.w,(ch-2)/im.h); const iw=im.w*s, ih=im.h*s; doc.addImage(im.data,'JPEG',x+(cw-iw)/2,y+(ch-ih)/2,iw,ih); }
+        catch { font('normal',8,MUT); doc.text('Imagen no disponible', x+cw/2, y+ch/2, {align:'center'}); }
+        font('italic',7.4,INK); const cap = doc.splitTextToSize(`Ilustración ${r+c+1}${f.nota?': '+f.nota:''}`, cw-2).slice(0,2);
+        doc.text(cap, x+cw/2, y+ch+3.6, {align:'center'});
+      }
+      y += ch+capH+3;
+    }
+  }
+  /* signatures */
+  ensure(46); y += 6;
+  const sw = 72, lx = M+6, rx = M+W-6-sw, ly = y+26;
+  if (i.firma) { try { const im = await imgData(Data.photoSrc(i.firma), 900); const s = Math.min(sw/im.w, 24/im.h); const iw=im.w*s, ih=im.h*s; doc.addImage(im.data,'JPEG', rx+(sw-iw)/2, ly-ih-1, iw, ih); } catch {} }
+  doc.setDrawColor(...INK); doc.setLineWidth(0.3); doc.line(lx, ly, lx+sw, ly); doc.line(rx, ly, rx+sw, ly);
+  font('bold',8.6,INK); doc.text(String(i.tecnico||'Técnico responsable'), lx+sw/2, ly+4.6, {align:'center'}); doc.text('Recibe conforme', rx+sw/2, ly+4.6, {align:'center'});
+  font('normal',7.6,MUT); doc.text('Técnico · '+cfg.razon, lx+sw/2, ly+8.4, {align:'center'});
+  const rnom = i.recibe?.nombre || cl.nombre || 'Cliente', rrut = i.recibe?.rut || (!i.recibe?.nombre ? cl.rut : '');
+  doc.text(rnom + (rrut?' · RUT '+rrut:''), rx+sw/2, ly+8.4, {align:'center'});
+  y = ly + 12;
+
+  /* footer */
+  const pages = doc.getNumberOfPages();
+  for (let p=1; p<=pages; p++) { doc.setPage(p); doc.setDrawColor(...LINE); doc.setLineWidth(0.3); doc.line(M,287,M+W,287);
+    font('normal',7.2,MUT); doc.text(cfg.razon+' · '+docName, M, 291); doc.text('Página '+p+' de '+pages, M+W, 291, {align:'right'}); }
+  return doc.output('blob');
+}
+async function makeInfPDF(id, btn){
+  const i = S.informes.get(id), msg = $('#pdfmsg');
+  if (!window.jspdf) { msg.textContent = 'No se pudo cargar el generador de PDF. Revisa tu conexión y recarga la página.'; return; }
+  btn.disabled = true; msg.textContent = 'Generando PDF…';
+  try {
+    const blob = await buildInfPDF(i);
+    const name = 'Informe_Instalacion_'+pad(i.numero)+'_'+String(i.cliente?.nombre||'cliente').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'').toUpperCase().slice(0,40)+'.pdf';
+    if (downloads) {
+      try { await downloads.save({filename:name, data:blob}); msg.textContent = 'Listo: '+name; }
+      catch(e){ msg.textContent = e.code==='declined' ? 'Descarga cancelada.' : 'No se pudo descargar el PDF ('+(e.code||'error')+').'; }
+    } else {
+      const url = URL.createObjectURL(blob);
+      modal(`<div class="dlg" style="width:min(900px,100%);height:100%"><header><h2>${esc(name)}</h2></header><div class="body" style="padding:0"><iframe src="${url}" title="Vista previa PDF" style="width:100%;height:100%;min-height:60vh;border:0"></iframe></div><footer><span class="small muted" style="margin-right:auto">Vista previa del informe.</span><button class="btn" data-act="close">Cerrar</button></footer></div>`);
+      msg.textContent = '';
+    }
+  } catch(e){ console.error(e); msg.textContent = 'No se pudo generar el PDF: '+(e.message||e); }
+  finally { btn.disabled = false; }
+}
+
+Object.assign(ACT, {
+  'save-inf': saveInf,
+  'inf-pdf': b => makeInfPDF(b.dataset.id, b),
+  'inf-eq-add': () => { if (I.equipos.length >= 20) return toast('Máximo 20 equipos por informe.'); I.equipos.push(newEquipo()); drawEqs(); document.querySelector(`[data-eq="${I.equipos.length-1}"]`)?.scrollIntoView({behavior:'smooth', block:'start'}); toast('Equipo '+I.equipos.length+' agregado'); },
+  'inf-eq-del': b => { const k = +b.dataset.i, e = I.equipos[k];
+    if ([e.tipo,e.marca,e.modelo,e.ubicUI,e.tFrio,e.tCalor].some(v=>tstr(v)) && b.dataset.confirm!=='1') { b.dataset.confirm='1'; b.textContent='¿Quitar? Toca de nuevo'; return; }
+    I.equipos.splice(k,1); drawEqs(); toast('Equipo quitado'); },
+  'inf-eq-copy': b => { const k = +b.dataset.i, a = I.equipos[0]; ['tipo','marca','modelo','capacidad','refrigerante'].forEach(x=>{ I.equipos[k][x] = a[x]; }); drawEqs(); toast('Datos copiados del equipo 1'); },
+  'inf-ck': b => { const e = I.equipos[+b.dataset.i], key = b.dataset.key; e.ck[key] = e.ck[key]===b.dataset.s ? '' : b.dataset.s;
+    b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.s===e.ck[key]))); },
+  'inf-ck-all': b => { const e = I.equipos[+b.dataset.i]; INF_CK.forEach(([k])=>{ e.ck[k]='ok'; });
+    document.querySelectorAll(`[data-act="inf-ck"][data-i="${b.dataset.i}"]`).forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.s==='ok'))); },
+  'inf-foto': () => { const fi = $('#fileIn'); fi.value=''; fi.onchange = () => onInfFiles(fi.files); fi.click(); },
+  'inf-foto-del': b => { const [f] = I.fotos.splice(+b.dataset.i,1); if (I._new.includes(f.id)) { Data.dropPhoto(f.id); I._new = I._new.filter(x=>x!==f.id); } else I._removed.push(f.id); drawInfFotos(); },
+  'inf-sig-clear': () => { I._sig = null; I._sigDirty = true; const cv = $('#if-sig'); const x = cv.getContext('2d'); x.save(); x.setTransform(1,0,0,1,0,0); x.fillStyle='#fff'; x.fillRect(0,0,cv.width,cv.height); x.restore(); $('#if-sighint').hidden = false; },
+  'inf-del': b => modal(`<div class="dlg" style="width:min(440px,100%)"><header><h2>¿Eliminar informe N° ${pad(S.informes.get(b.dataset.id)?.numero)}?</h2></header><div class="body"><p>Se borran el informe, sus fotos y la firma. No se puede deshacer.</p><p class="err" id="jerr"></p></div><footer><button class="btn" data-act="close">Cancelar</button><button class="btn red" data-act="inf-del-ok" data-id="${esc(b.dataset.id)}">Eliminar</button></footer></div>`),
+  'inf-del-ok': async b => { const i = S.informes.get(b.dataset.id); try { await Data.del('informes', i.id); (i.fotos||[]).forEach(f=>Data.dropPhoto(f.id)); if (i.firma) Data.dropPhoto(i.firma); modal(''); toast('Informe eliminado'); go('inf-inst',{force:true}); } catch(e){ $('#jerr').textContent = writeErr(e); } },
+});
+
+function DemoInf(){
+  const base = {...newEquipo(), refrigerante:'R-32', ck:{estanqueidad:'ok',vacio:'ok',carga:'na',drenaje:'ok',proteccion:'ok',soportes:'ok',sellado:'ok',explicacion:'ok'}, ckv:{estanqueidad:300, vacio:450}};
+  S.informes.set('nEj', {id:'nEj', numero:1, fecha:today(), tecnico:'Técnico de ejemplo',
+    cliente:{nombre:'Cliente particular de ejemplo', rut:'', telefono:'+56 9 1234 5678', correo:'ejemplo@correo.cl', direccion:'Calle Ejemplo 123, Concepción'},
+    equipos:[{...base, tipo:'Split muro', marca:'Midea', modelo:'Ejemplo 12.000', capacidad:12000, ubicUI:'Living', ubicUE:'Muro patio', metros:3, tRet:22, tFrio:11, tCalor:42, pSuc:118},
+             {...base, tipo:'Split muro', marca:'Midea', modelo:'Ejemplo 9.000', capacidad:9000, ubicUI:'Dormitorio principal', ubicUE:'Muro patio', metros:4.5, tRet:21, tFrio:12, tCalor:40}],
+    fotos:[], observaciones:'Ejemplo: equipos instalados y probados en modo frío y calor, funcionando en condiciones normales. Se explicó al cliente el uso del control remoto y la limpieza de filtros.',
+    recibe:{nombre:'',rut:''}, firma:'', creado:today()});
+  Demo.counters.informes = 1;
+}
+
 render();
 Data.init();
 </script>
